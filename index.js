@@ -27,3 +27,7 @@ mongoose
 //   routes
 const auth = require("./route/auth");
 app.use("/api/auth", auth);
+
+app.use("/", (req, res) => {
+  res.send("Page not found");
+});
