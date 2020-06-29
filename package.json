@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon start"
+    "test": "nodemon start",
+    "start": "npm start"
   },
   "author": "Aryan",
   "license": "ISC",
