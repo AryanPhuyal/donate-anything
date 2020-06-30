@@ -13,8 +13,7 @@ const userSchema = new Schema({
     default: false,
   },
   role: {
-    type: mongoose.Types.ObjectId,
-    ref: "Role",
+    type: String,
   },
   password: String,
   photo: String,

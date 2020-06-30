@@ -46,9 +46,10 @@ roleValidation = body("role")
   .isEmpty()
   .withMessage("Role is Required")
   .custom((role) => {
+    console.log(role);
     if (
-      role.toLowerCase() != "admin" ||
-      role.toLowerCase() != "business" ||
+      role.toLowerCase() != "admin" &&
+      role.toLowerCase() != "business" &&
       role.toLowerCase() != "user"
     ) {
       return Promise.reject("Role is not valid");
@@ -60,7 +61,7 @@ exports.signUpValidation = [
   passwordValidation,
   firstNameValidation,
   lastNameValidation,
-  roleValidation,
+  // roleValidation,
 ];
 
 exports.loginValidation = [emailValidationLogin, passwordValidation];
