@@ -16,7 +16,7 @@ exports.findUser = (email, cb) => {
     .then((data) => {
       if (data) {
         cb(null, data);
-      } else cb("exists", null);
+      } else cb("Not exists", null);
     })
     .catch((err) => cb(err, null));
 };
@@ -68,28 +68,25 @@ exports.createUser = (
 };
 
 exports.changePassword = ({ email, password, newPassword }, cb) => {
-  checkUserExists(email, (err, data) => {
-    if (!err) {
-      findUser(email, (err, user) => {
-        if (user) {
-          bcript.compare(password, user.password, (err, result) => {
-            if (result) {
-              bcript.hash(password, 12, async (err, hashedPassword) => {
-                if (hashedPassword) {
-                  user.password = hashedPassword;
-                  await user.save();
-                  cb(null, "success");
-                } else {
-                  cb(err, null);
-                }
-              });
+  findUser(email, (err, user) => {
+    if (user) {
+      console.log(user);
+      bcript.compare(password, user.password, (err, result) => {
+        if (result) {
+          bcript.hash(password, 12, async (err, hashedPassword) => {
+            if (hashedPassword) {
+              user.password = hashedPassword;
+              await user.save();
+              cb(null, "success");
             } else {
-              cb(err, result);
+              cb(err, null);
             }
           });
-          cb(err, null);
+        } else {
+          cb(err, result);
         }
       });
+      cb(err, null);
     }
   });
 };

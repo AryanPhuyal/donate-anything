@@ -19,6 +19,25 @@ const userSchema = new Schema({
   photo: String,
   createdAt: Date,
   modifiedAt: Date,
+  BusinessName: String,
+  // threads: [
+  //   {
+  //     threadId: mongoose.Types.ObjectId,
+  //     ref: "Thread",
+  //   },
+  // ],
+  // followers: [
+  //   {
+  //     followerId: mongoose.Types.ObjectId,
+  //     ref: "User",
+  //   },
+  // ],
+  // following: [
+  //   {
+  //     followingId: mongoose.Types.ObjectId,
+  //     ref: "User",
+  //   },
+  // ],
 });
 
 module.exports = mongoose.model("User", userSchema);

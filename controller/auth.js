@@ -1,7 +1,7 @@
 const { comparePassword, createUser } = require("../utility/authencation");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
-
+const keys = require("../config/keys");
 exports.login = (req, res) => {
   const errors = validationResult(req);
 
@@ -10,6 +10,7 @@ exports.login = (req, res) => {
     const password = req.body.password;
     comparePassword(email, password, (err, user) => {
       if (err) {
+        console.log(err);
         if (err === "notExists") {
           res.json({
             err: "User with this email dosen't exists",
@@ -30,7 +31,7 @@ exports.login = (req, res) => {
               photo: user.photo,
               role: user.role,
             },
-            process.env.JWT,
+            keys.JWT,
             (err, token) => {
               if (!err) {
                 return res.json({
