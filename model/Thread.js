@@ -1,14 +1,25 @@
 const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
-
-const threadSchema = new Schema({
+const threadSchema = new mongoose.Schema({
   name: String,
   image: String,
   dateBought: Date,
-  dateUpdate: Date,
   faultDescription: String,
   description: String,
+  createdDate: Date,
+  modifiedDate: Date,
+  status: {
+    type: Boolean,
+    default: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+  },
 });
 
 module.exports = mongoose.model("Thread", threadSchema);

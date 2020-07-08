@@ -5,10 +5,19 @@ const Schema = mongoose.Schema;
 const categorySchema = new Schema({
   name: {
     type: String,
+    lowercase: true,
   },
   imageUrl: String,
-  createdDateL: Date,
+  createdDate: Date,
   modifiedDate: Date,
+  createdBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
+  active: {
+    type: Boolean,
+    default: true,
+  },
   threads: [
     {
       threadId: {

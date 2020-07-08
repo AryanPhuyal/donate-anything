@@ -22,7 +22,7 @@ const userSchema = new Schema({
   BusinessName: String,
   // threads: [
   //   {
-  //     threadId: mongoose.Types.ObjectId,
+  //     threadId: mongoose.Schema.Types.ObjectId,
   //     ref: "Thread",
   //   },
   // ],

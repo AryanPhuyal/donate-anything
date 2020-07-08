@@ -4,7 +4,7 @@ const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 const keys = require("./config/keys");
-
+const Thread = require("./model/Thread");
 app.use(bodyParser.json());
 var cors = require("cors");
 app.use(cors({ origin: true, credentials: true }));
@@ -27,6 +27,11 @@ mongoose
 //   routes
 const auth = require("./route/auth");
 app.use("/api/auth", auth);
+
+// admin routes
+const adminRoute = require("./route/admin");
+const isAdmin = require("./middleware/isAdmin");
+app.use("/api/admin", jwtToken, adminRoute);
 
 app.use("/", (req, res) => {
   res.send("Page not found");

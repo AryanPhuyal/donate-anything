@@ -28,6 +28,7 @@ exports.login = (req, res) => {
               email: user.email,
               phoneNumber: user.phoneNumber,
               gender: user.gender,
+              role: user.role,
               photo: user.photo,
               role: user.role,
             },
@@ -42,6 +43,7 @@ exports.login = (req, res) => {
                   phoneNumber: user.phoneNumber,
                   gender: user.gender,
                   photo: user.photo,
+                  role: user.role,
                   token: token,
                 });
               }
