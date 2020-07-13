@@ -54,7 +54,7 @@ exports.createThread = ({
     });
 };
 
-const updateThread = ({
+exports.updateThread = ({
   name,
   image,
   faultDescription,
@@ -63,7 +63,7 @@ const updateThread = ({
   threadId,
 }) => {};
 
-export function deleteThread(threadId, userId, cb) {
+exports.deleteThread = (threadId, userId, cb) => {
   Thread.findById(threadId)
     .then(async (thread) => {
       {
@@ -78,4 +78,4 @@ export function deleteThread(threadId, userId, cb) {
       }
     })
     .catch((err) => cb(err, null));
-}
+};

@@ -4,6 +4,7 @@ const { validationResult } = require("express-validator");
 const keys = require("../config/keys");
 exports.login = (req, res) => {
   const errors = validationResult(req);
+  console.log(errors);
 
   if (errors.isEmpty()) {
     const email = req.body.email;
@@ -62,21 +63,26 @@ exports.login = (req, res) => {
 
 exports.signup = (req, res) => {
   const errors = validationResult(req);
+  console.log(errors);
 
   if (errors.isEmpty()) {
     const userDetails = {
-      lastName: req.body.lastName,
-      firstName: req.body.firstName,
       email: req.body.email,
       password: req.body.password,
       role: req.body.role,
       dateOfBirth: req.body.dateOfBirth,
       phoneNo: req.body.phoneNo,
-      gender: req.body.gender,
       country: req.body.country,
       city: req.body.city,
       photo: req.body.photo,
     };
+    if (req.body.role == "business") {
+      userDetails.name = req.body.name;
+    } else {
+      userDetails.gender = req.body.gender;
+      userDetails.lastName = req.body.lastName;
+      userDetails.firstName = req.body.firstName;
+    }
     createUser(userDetails, (err, user) => {
       if (user) {
         res.json({ success: "Successfully created user" });
@@ -84,7 +90,7 @@ exports.signup = (req, res) => {
         res.status(300).json({
           err: [
             {
-              msg: "Email alrady exists",
+              msg: "Email already exists",
               param: "email",
             },
           ],

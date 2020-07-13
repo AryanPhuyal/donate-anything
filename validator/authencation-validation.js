@@ -28,6 +28,17 @@ firstNameValidation = body("firstName")
   .isLength({ min: 2, max: 10 })
   .withMessage("Name should between 2 and 10");
 
+businessNameValidation = body("name")
+  .isString()
+  .trim()
+  .not()
+  .isEmpty()
+  .withMessage("Don't leave  Name field empty")
+  .isString()
+  .withMessage("Name Must Be String")
+  .isLength({ min: 2, max: 10 })
+  .withMessage("Name should between 2 and 10");
+
 lastNameValidation = body("lastName")
   .isString()
   .trim()
@@ -39,29 +50,31 @@ lastNameValidation = body("lastName")
   .isLength({ min: 2, max: 10 })
   .withMessage("Last Name should between 2 and 10");
 
-roleValidation = body("role")
-  .isString()
-  .trim()
-  .not()
-  .isEmpty()
-  .withMessage("Role is Required")
-  .custom((role) => {
-    console.log(role);
-    if (
-      role.toLowerCase() != "admin" &&
-      role.toLowerCase() != "business" &&
-      role.toLowerCase() != "user"
-    ) {
-      return Promise.reject("Role is not valid");
-    }
-  });
+roleValidation = body("role").custom((role) => {
+  console.log(role);
+  console.log(role.toLowerCase() != "business");
+  if (
+    role.toLowerCase() != "admin" &&
+    role.toLowerCase() != "business" &&
+    role.toLowerCase() != "user"
+  )
+    return Promise.reject("Role is not valid");
+  else return true;
+});
 
 exports.signUpValidation = [
   emailValidation,
   passwordValidation,
   firstNameValidation,
   lastNameValidation,
-  // roleValidation,
+  roleValidation,
+];
+
+exports.signUpValidationBusiness = [
+  businessNameValidation,
+  emailValidation,
+  passwordValidation,
+  roleValidation,
 ];
 
 exports.loginValidation = [emailValidationLogin, passwordValidation];

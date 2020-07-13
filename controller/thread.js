@@ -76,7 +76,13 @@ export function showOneThread(req, res) {
 }
 
 // show loggedIn user Thread
-export function showOwnThread(req, res) {}
+export function showOwnThread(req, res) {
+  const user = req.user._id;
+  showAllThreadUser(user, (err, threads) => {
+    if (!err) res.json(threads);
+    else res.status(500).json({ err: "Server error" });
+  });
+}
 //
 export function deleteThread(req, res) {}
 export function editThread(req, res) {}

@@ -9,3 +9,5 @@ const followUser = () => {};
 const showFollowedUser = () => {};
 
 const showFollowingUser = () => {};
+
+const showCatagories = () => {};
