@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
   } else {
     // forbiddon
     res.status(403).json({
-      error: "Invalid request",
+      error: "Invalid",
     });
   }
 };
