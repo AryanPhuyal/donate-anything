@@ -1,6 +1,7 @@
 const Category = require("../../model/Category");
 exports.findCategory = (cb) => {
   Category.find({ active: true })
+    .select("_id name imageUrl")
     .then((data) => cb(null, data))
     .catch((err) => cb(err, null));
 };

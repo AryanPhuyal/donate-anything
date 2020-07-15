@@ -19,7 +19,7 @@ mongoose
   .then((data) => {
     console.log("connected to database");
     app.listen(process.env.PORT || 3000, () =>
-      console.log("listining to the port 3000")
+      console.log("listening to the port 3000")
     );
   })
   .catch((err) => console.log(err));
@@ -27,6 +27,10 @@ mongoose
 //   routes
 const auth = require("./route/auth");
 app.use("/api/auth", auth);
+// user route
+const user = require("./route/user");
+const { isUser } = require("./middleware/isUser");
+app.use("/api", jwtToken, isUser, user);
 
 // admin routes
 const adminRoute = require("./route/admin");

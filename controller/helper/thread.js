@@ -1,20 +1,20 @@
 const Thread = require("../../model/Thread");
 
-export function showAllThread(cb) {
+exports.showAllThread = (cb) => {
   Thread.find({ status: true })
     .populate("user")
     .then((threads) => cb(null, threads))
     .catch((err) => cb(err, null));
-}
+};
 
-export function showAllThreadUser(user, cb) {
+exports.showAllThreadUser = (user, cb) => {
   Thread.find({ status: true, user: user })
     .populate("user")
     .then((threads) => cb(null, threads))
     .catch((err) => cb(err, null));
-}
+};
 
-export function showAThread(threadId, cb) {
+exports.showAThread = (threadId, cb) => {
   Thread.findById(threadId)
     .then((thread) => {
       cb(null, thread);
@@ -22,18 +22,12 @@ export function showAThread(threadId, cb) {
     .catch((err) => {
       cb(thread, null);
     });
-}
+};
 
-exports.createThread = ({
-  name,
-  image,
-  faultDescription,
-  description,
-  dateBrought,
-  category,
-  user,
-  cb,
-}) => {
+exports.createThread = (
+  { name, image, faultDescription, description, dateBrought, category, user },
+  cb
+) => {
   const thread = new Thread({
     name,
     dateBrought,
