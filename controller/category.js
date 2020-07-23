@@ -16,7 +16,7 @@ exports.getCategory = (req, res) => {
 //  name
 exports.createCategory = (req, res) => {
   const userId = req.user._id;
-  const imageUrl = req.file.path;
+  const imageUrl = "/uploads/" + req.file.filename;
   const name = req.body.name;
   addCategory({ name: name, imageUrl: imageUrl, user: userId }, (err, data) => {
     if (!err && data === "exists") {

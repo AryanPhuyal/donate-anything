@@ -32,7 +32,15 @@ exports.showAThread = (threadId, cb) => {
 };
 
 exports.createThread = (
-  { name, image, faultDescription, description, dateBrought, category, user },
+  {
+    name,
+    imageUrl,
+    faultDescription,
+    description,
+    dateBrought,
+    category,
+    user,
+  },
   cb
 ) => {
   const thread = new Thread({
@@ -42,7 +50,7 @@ exports.createThread = (
     description,
     createdDate: Date.now(),
     category,
-    image,
+    image: imageUrl,
     user,
   });
   thread
@@ -57,18 +65,18 @@ exports.createThread = (
 
 exports.updateThread = ({
   name,
-  image,
+  imageUrl,
   faultDescription,
   description,
   userId,
   threadId,
 }) => {};
 
-exports.deleteThread = (threadId, userId, cb) => {
+exports.deleteThread = (threadId, role, userId, cb) => {
   Thread.findById(threadId)
     .then(async (thread) => {
       {
-        if (thread.userId === userId) {
+        if (thread.userId === userId || thread.role.lower == "admin") {
           thread.status = false;
           await thread.save();
           cb(null, "success");

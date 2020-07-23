@@ -43,8 +43,8 @@ exports.listUser = (cb) => {
     .catch((err) => cb(err));
 };
 
-exports.detailsOfUser = (cb, userId) => {
-  User.findById({ deleted: false }).select(
-    "firstName lastName email photo BusinessName dateOfBirth gender accountStatus role createdAt"
-  );
-};
+// exports.detailsOfUser = (cb, userId) => {
+//   User.findById({ deleted: false }).select(
+//     "firstName lastName email photo BusinessName dateOfBirth gender accountStatus role createdAt"
+//   ).then(user=>);
+// };

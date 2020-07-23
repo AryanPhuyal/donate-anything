@@ -22,8 +22,7 @@ exports.addThread = (req, res) => {
     const name = req.body.name;
     let imageUrl;
     if (req.file) {
-      console.log(req.file);
-      imageUrl = req.file.fileName;
+      imageUrl = "/uploads/" + req.file.filename;
     }
     const dateBrought = req.body.DateBrought;
     const faultDescription = req.body.faultDescription;
@@ -101,5 +100,5 @@ exports.showOwnThread = (req, res) => {
   });
 };
 //
-// export function deleteThread(req, res) {}
+// exports.deleteThread(req, res) {}
 // export function editThread(req, res) {}
