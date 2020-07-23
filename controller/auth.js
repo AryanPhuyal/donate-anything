@@ -2,6 +2,8 @@ const { comparePassword, createUser } = require("../utility/authencation");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const keys = require("../config/keys");
+const { deleteUser, listUser } = require("./helper/auth");
+
 exports.login = (req, res) => {
   const errors = validationResult(req);
   console.log(errors);
@@ -102,4 +104,29 @@ exports.signup = (req, res) => {
   } else {
     res.status(300).json({ err: errors.array() });
   }
+};
+
+exports.deleteUser = (req, res) => {
+  const requestedUser = req.user;
+  const userId = req.userId;
+  if (requestedUser.role.lower() == "admin" || requestedUser._id == userId) {
+    deleteUser(userId, (err, succ) => {
+      if (err && err == "notExists") {
+        res.status(400).json({ err: "User Not exists" });
+      } else if (err) {
+        res.status(500).json({ err: "Internal Server error" });
+      } else {
+        res.json({ success: "Success" });
+      }
+    });
+  } else {
+    res.status(403).json({ err: "unauthorize" });
+  }
+};
+
+exports.getUser = (req, res) => {
+  listUser((err, user) => {
+    if (!err) res.json(user);
+    else res.status(500).json({ err: "internal server error" });
+  });
 };

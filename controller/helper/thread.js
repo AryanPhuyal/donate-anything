@@ -7,6 +7,13 @@ exports.showAllThread = (cb) => {
     .catch((err) => cb(err, null));
 };
 
+exports.showAllThreadCategory = (category, cb) => {
+  Thread.find({ status: true, category: category })
+    .populate("user")
+    .then((threads) => cb(null, threads))
+    .catch((err) => cb(err, null));
+};
+
 exports.showAllThreadUser = (user, cb) => {
   Thread.find({ status: true, user: user })
     .populate("user")

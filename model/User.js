@@ -20,6 +20,8 @@ const userSchema = new Schema({
   createdAt: Date,
   modifiedAt: Date,
   BusinessName: String,
+  deactivated: Boolean,
+  deleted: Boolean,
   // threads: [
   //   {
   //     threadId: mongoose.Schema.Types.ObjectId,

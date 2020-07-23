@@ -4,8 +4,10 @@ const {
   showAllThreadUser,
   deleteThread,
   showAThread,
+  showAllThreadCategory,
 } = require("./helper/thread");
 const { validationResult } = require("express-validator");
+const { query } = require("express");
 
 // all user cam add thread
 // name
@@ -52,11 +54,18 @@ exports.addThread = (req, res) => {
 };
 // all thread
 exports.showAllThread = (req, res) => {
-  showAllThread((err, threads) => {
-    if (err) {
-      res.status(500).json({ err: "Server Error" });
-    } else res.json(threads);
-  });
+  if (req.query.category) {
+    showAllThreadCategory(req.query.category, (err, threads) => {
+      if (err) {
+        res.status(500).json({ err: "Server Error" });
+      } else res.json(threads);
+    });
+  } else
+    showAllThread((err, threads) => {
+      if (err) {
+        res.status(500).json({ err: "Server Error" });
+      } else res.json(threads);
+    });
 };
 // send userId as parameter
 // require user id

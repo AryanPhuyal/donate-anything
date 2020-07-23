@@ -4,6 +4,7 @@ const Router = require("express").Router;
 const router = Router();
 // const {} = require("../controller/admin");
 const { upload } = require("../middleware/multer");
+const { isAdmin } = require("../middleware/isAdmin");
 const {
   getCategory,
   deleteCategory,
@@ -11,14 +12,18 @@ const {
   editCategory,
 } = require("../controller/category");
 
+const { deleteUser } = require("../controller/auth");
+
 // delete user
 // any user
 // admin route
 // router.get("/delete-user/:userId");
-
 // // reset password
 // router.get("/reset-password/:userId");
 router.get("/category", getCategory);
-// });
-router.post("/category", upload.single("profile"), createCategory);
+router.delete("/category", isAdmin, deleteCategory);
+router.put("/category", isAdmin, editCategory);
+router.post("/category", isAdmin, upload.single("profile"), createCategory);
+router.delete("/user", isAdmin, deleteUser);
+router.get("/users", isAdmin);
 module.exports = router;
