@@ -21,7 +21,7 @@ exports.showAllThreadUser = (user, cb) => {
     .catch((err) => cb(err, null));
 };
 
-exports.showAThread = (threadId, cb) => {
+exports.showAThread = (userId, threadId, cb) => {
   Thread.findById(threadId)
     .populate({
       path: "user",

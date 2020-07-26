@@ -25,8 +25,9 @@ exports.listUsers = (cb) => {
 };
 
 exports.userDetails = (userId, cb) => {
+  console.log(userId);
   User.findById(userId)
-    .where({ deleted: false })
+    //  .where({ deleted: false })
     .select(
       "firstName lastName email dateOfBirth gender role photo createdAt BusinessName"
     )

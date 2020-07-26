@@ -13,7 +13,7 @@ exports.listUsers = (req, res) =>
   });
 
 exports.detailUser = (req, res) => {
-  const userId = req.params.id;
+  const userId = req.params.userId;
   userDetails(userId, (err, users) => {
     if (err) res.status(500).json({ err: "Internal server error" });
     else res.json(users);
