@@ -23,6 +23,10 @@ exports.showAllThreadUser = (user, cb) => {
 
 exports.showAThread = (threadId, cb) => {
   Thread.findById(threadId)
+    .populate({
+      path: "user",
+      select: "firstName lastName email role gender BusinessName",
+    })
     .then((thread) => {
       cb(null, thread);
     })
@@ -76,7 +80,7 @@ exports.deleteThread = (threadId, role, userId, cb) => {
   Thread.findById(threadId)
     .then(async (thread) => {
       {
-        if (thread.userId === userId || thread.role.lower == "admin") {
+        if (thread.userId === userId || role.lower == "admin") {
           thread.status = false;
           await thread.save();
           cb(null, "success");

@@ -14,6 +14,13 @@ const router = Router();
 //
 //
 router.get("/category", getCategory);
+// logged in user
+// details
+router.get("/me");
+// user profile
+//  following
+// router.get("/user/:userId");
+
 router.get("/threads", showAllThread);
 router.get("thread/:threadId", showOneThread);
 router.post("/thread", upload.single("image"), threadValidation, addThread);

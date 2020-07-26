@@ -20,20 +20,27 @@ const userSchema = new Schema({
   createdAt: Date,
   modifiedAt: Date,
   BusinessName: String,
-  deactivated: Boolean,
-  deleted: Boolean,
+  deactivated: {
+    default: false,
+    type: Boolean,
+  },
+  deleted: {
+    default: false,
+    type: Boolean,
+  },
   // threads: [
   //   {
   //     threadId: mongoose.Schema.Types.ObjectId,
   //     ref: "Thread",
   //   },
   // ],
-  // followers: [
-  //   {
-  //     followerId: mongoose.Types.ObjectId,
-  //     ref: "User",
-  //   },
-  // ],
+  followers: [
+    {
+      // type: String,
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   // following: [
   //   {
   //     followingId: mongoose.Types.ObjectId,

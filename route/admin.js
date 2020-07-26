@@ -12,6 +12,8 @@ const {
   editCategory,
 } = require("../controller/category");
 
+const { listUsers, detailUser } = require("../controller/admin");
+
 const { deleteUser } = require("../controller/auth");
 
 // delete user
@@ -25,5 +27,6 @@ router.delete("/category", isAdmin, deleteCategory);
 router.put("/category", isAdmin, editCategory);
 router.post("/category", isAdmin, upload.single("profile"), createCategory);
 router.delete("/user", isAdmin, deleteUser);
-router.get("/users", isAdmin);
+router.get("/users", isAdmin, listUsers);
+router.get("/user/:userId", isAdmin, detailUser);
 module.exports = router;

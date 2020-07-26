@@ -100,5 +100,9 @@ exports.showOwnThread = (req, res) => {
   });
 };
 //
-// exports.deleteThread(req, res) {}
+exports.deleteThread = (req, res) => {
+  const threadId = req.body.threadId;
+  const role = req.user.role;
+  deleteThread(threadId, role, req.user._id, () => {});
+};
 // export function editThread(req, res) {}
