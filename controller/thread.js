@@ -7,7 +7,6 @@ const {
   showAllThreadCategory,
 } = require("./helper/thread");
 const { validationResult } = require("express-validator");
-const { query } = require("express");
 
 // all user cam add thread
 // name
@@ -37,7 +36,7 @@ exports.addThread = (req, res) => {
         description,
         dateBrought,
         category,
-        userId,
+        user: userId,
       },
       (err, thread) => {
         if (!err) {

@@ -1,18 +1,32 @@
 // import { where } from "../../model/User";
 
 const User = require("../../model/User");
-const updateProfile = () => {};
+exports.getProfile = async (userId, cb) => {
+  try {
+    let user = User.findById(userId).select('firstName lastName email dateOfBirth gender role accountStatus photo createdAt modifiedDate BusinessName ');
+    cb(null, user);
 
-const uploadProfilePicture = () => {};
+  } catch (err) {
+    cb(err);
+  }
 
-const followUser = () => {};
+};
+const updateProfile = () => { };
 
-const showFollowedUser = () => {};
+const uploadProfilePicture = () => { };
 
-const showFollowingUser = () => {};
+const followUser = (userId, me) => {
+  User.findById(userId).then(async (user) => {
 
-const showCatagories = () => {};
-const resetPassword = () => {};
+  });
+};
+
+const showFollowedUser = () => { };
+
+const showFollowingUser = () => { };
+
+const showCatagories = () => { };
+const resetPassword = () => { };
 
 exports.listUsers = (cb) => {
   User.find()

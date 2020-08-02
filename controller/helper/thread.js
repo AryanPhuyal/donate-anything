@@ -25,7 +25,7 @@ exports.showAThread = (userId, threadId, cb) => {
   Thread.findById(threadId)
     .populate({
       path: "user",
-      select: "firstName lastName email role gender BusinessName",
+      select: "firstName lastName email role gender BusinessName followers",
     })
     .then((thread) => {
       cb(null, thread);
@@ -33,6 +33,10 @@ exports.showAThread = (userId, threadId, cb) => {
     .catch((err) => {
       cb(thread, null);
     });
+};
+
+checkUserFollowThread = (userId, threadOwnerId, cb) => {
+  User.findById(threadOwnerId);
 };
 
 exports.createThread = (
@@ -47,6 +51,7 @@ exports.createThread = (
   },
   cb
 ) => {
+  console.log(user);
   const thread = new Thread({
     name,
     dateBrought,

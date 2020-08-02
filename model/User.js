@@ -20,6 +20,10 @@ const userSchema = new Schema({
   createdAt: Date,
   modifiedAt: Date,
   BusinessName: String,
+  user: {
+    ref: "User",
+    type: mongoose.Types.ObjectId,
+  },
   deactivated: {
     default: false,
     type: Boolean,
