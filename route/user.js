@@ -11,7 +11,7 @@ const {
   showUserThread,
 } = require("../controller/thread");
 
-const { me } = require("../controller/user");
+const { me, updateProfile } = require("../controller/user");
 const router = Router();
 //
 //
@@ -22,8 +22,9 @@ router.get("/category", getCategory);
 // router.get("/me");
 // user profile
 //  following
-// router.get("/user/:userId");
-router.get("/me", me);
+// // router.get("/user/:userId");
+// router.get("/me", me);
+// router.put("/me", updateProfile);
 
 router.get("/threads", showAllThread);
 router.get("threads/:threadId", showOneThread);

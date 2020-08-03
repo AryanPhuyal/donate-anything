@@ -20,6 +20,9 @@ const userSchema = new Schema({
   createdAt: Date,
   modifiedAt: Date,
   BusinessName: String,
+  workAt: String,
+  about: String,
+  phoneNo: String,
   user: {
     ref: "User",
     type: mongoose.Types.ObjectId,

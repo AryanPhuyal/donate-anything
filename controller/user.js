@@ -2,7 +2,21 @@ const { changePassword } = require("./helper/auth");
 const { userDetails } = require("./helper/user");
 const resetPassword = (req, res) => {};
 
-const updateProfile = (req, res) => {};
+exports.updateProfile = async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    let user = await User.findById(userId);
+    user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
+    user.aboutMe = req.body.aboutMe;
+    user.phoneNo = req.body.phoneNo;
+    user.gender = req.body.gender;
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    res, status(500).json({ err: "Internal server error" });
+  }
+};
 
 exports.changePassword = (req, res) => {
   const oldPassword = req.body.oldPassword;
