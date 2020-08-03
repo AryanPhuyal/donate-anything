@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const jwtToken = require("../middleware/jwt-token");
 
 const {
   loginValidation,
@@ -12,8 +13,8 @@ const { login, signup } = require("../controller/auth");
 router.post("/login", loginValidation, login);
 router.post("/signup", signUpValidation, signup);
 router.post("/signup-business", signUpValidationBusiness, signup);
-router.get("/me", me);
-router.put("/me", signUpValidation, updateProfile);
-router.put("/change-password", changePassword);
+router.get("/me", jwtToken, me);
+router.put("/me", jwtToken, signUpValidation, updateProfile);
+router.put("/change-password", jwtToken, changePassword);
 
 module.exports = router;
