@@ -76,5 +76,6 @@ exports.signUpValidationBusiness = [
   passwordValidation,
   roleValidation,
 ];
+exports.changeProfileValidation = [firstNameValidation, lastNameValidation];
 
 exports.loginValidation = [emailValidationLogin, passwordValidation];

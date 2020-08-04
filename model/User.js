@@ -21,7 +21,7 @@ const userSchema = new Schema({
   modifiedAt: Date,
   BusinessName: String,
   workAt: String,
-  about: String,
+  aboutMe: String,
   phoneNo: String,
   user: {
     ref: "User",
