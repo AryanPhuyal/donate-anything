@@ -28,7 +28,7 @@ const resetPassword = () => {};
 
 exports.listUsers = (cb) => {
   User.find()
-    //  .where({ deleted: false })
+    .where({ deleted: false })
     .select(
       "firstName lastName email dateOfBirth gender role photo createdAt BusinessName"
     )

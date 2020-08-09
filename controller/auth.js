@@ -109,7 +109,10 @@ exports.signup = (req, res) => {
 exports.deleteUser = (req, res) => {
   const requestedUser = req.user;
   const userId = req.params.userId;
-  if (requestedUser.role.lower() == "admin" || requestedUser._id == userId) {
+  if (
+    requestedUser.role.toLowerCase() == "admin" ||
+    requestedUser._id == userId
+  ) {
     deleteUser(userId, (err, succ) => {
       if (err && err == "notExists") {
         res.status(400).json({ err: "User Not exists" });
