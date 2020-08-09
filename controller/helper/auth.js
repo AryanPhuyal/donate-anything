@@ -1,6 +1,7 @@
 const User = require("../../model/User");
 const { comparePassword } = require("../../utility/authencation");
 const bcript = require("bcryptjs");
+const { deleteAllUserThread } = require("./thread");
 
 exports.changePassword = (email, currentPassword, newPassword, cb) => {
   comparePassword(email, currentPassword, (err, user) => {

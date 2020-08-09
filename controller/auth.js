@@ -108,7 +108,7 @@ exports.signup = (req, res) => {
 
 exports.deleteUser = (req, res) => {
   const requestedUser = req.user;
-  const userId = req.userId;
+  const userId = req.params.userId;
   if (requestedUser.role.lower() == "admin" || requestedUser._id == userId) {
     deleteUser(userId, (err, succ) => {
       if (err && err == "notExists") {

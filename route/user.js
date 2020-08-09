@@ -31,6 +31,8 @@ router.get("threads/:threadId", showOneThread);
 router.post("/thread", upload.single("image"), threadValidation, addThread);
 router.get("/myThread", showOwnThread);
 router.get("/userThread/:userId", showUserThread);
+// deactivate user
+// router.get("/deactivate");
 
 // router.
 module.exports = router;

@@ -97,3 +97,9 @@ exports.deleteThread = (threadId, role, userId, cb) => {
     })
     .catch((err) => cb(err, null));
 };
+
+exports.deleteAllUserThread = (user, cb) => {
+  Thread.updateMany({ user: user }, { status: false })
+    .then((thread) => cb(null))
+    .catch((err) => cb(err));
+};
