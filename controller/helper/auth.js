@@ -26,7 +26,7 @@ exports.changePassword = (email, currentPassword, newPassword, cb) => {
 exports.deleteUser = (userId, cb) => {
   User.findById(userId)
     .then(async (user) => {
-      if (user) {
+      if (user && user.role.toLowerCase() != "admin") {
         user.deleted = true;
         await user.save();
         cb(null, "success");
