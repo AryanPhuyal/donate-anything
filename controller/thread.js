@@ -19,10 +19,8 @@ exports.addThread = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     const name = req.body.name;
-    let imageUrl;
-    if (req.file) {
-      imageUrl = "/uploads/" + req.file.filename;
-    }
+
+    const imageUrl = "/uploads/" + req.body.image;
     const dateBrought = req.body.DateBrought;
     const faultDescription = req.body.faultDescription;
     const description = req.body.description;
@@ -100,8 +98,14 @@ exports.showOwnThread = (req, res) => {
 };
 //
 exports.deleteThread = (req, res) => {
-  const threadId = req.body.threadId;
+  const threadId = req.params.threadId;
   const role = req.user.role;
-  deleteThread(threadId, role, req.user._id, () => {});
+  deleteThread(threadId, role, req.user._id, (err) => {
+    if (!err) {
+      res.json({ success: "Success" });
+    } else {
+      res.status(500).json({ err: "internal server Error" });
+    }
+  });
 };
 // export function editThread(req, res) {}

@@ -13,46 +13,50 @@ exports.login = (req, res) => {
     const password = req.body.password;
     comparePassword(email, password, (err, user) => {
       if (err) {
-        console.log(err);
         if (err === "notExists") {
           res.json({
             err: "User with this email dosen't exists",
           });
         } else {
+          console.log(err);
           res.status(500).json({ err: "Server Error" });
         }
       } else {
         if (user) {
-          jwt.sign(
-            {
-              _id: user._id,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              email: user.email,
-              phoneNumber: user.phoneNumber,
-              gender: user.gender,
-              role: user.role,
-              photo: user.photo,
-              role: user.role,
-            },
-            keys.JWT,
-            (err, token) => {
-              if (!err) {
-                return res.json({
-                  _id: user._id,
-                  firstName: user.firstName,
-                  lastName: user.lastName,
-                  email: user.email,
-                  phoneNumber: user.phoneNumber,
-                  gender: user.gender,
-                  photo: user.photo,
-                  role: user.role,
-                  token: token,
-                });
+          console.log(user.verified);
+          if (user.verified === false) {
+            res.json({ err: "Your account is not verified" });
+          } else
+            jwt.sign(
+              {
+                _id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                gender: user.gender,
+                role: user.role,
+                photo: user.photo,
+                role: user.role,
+              },
+              keys.JWT,
+              (err, token) => {
+                if (!err) {
+                  return res.json({
+                    _id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    phoneNumber: user.phoneNumber,
+                    gender: user.gender,
+                    photo: user.photo,
+                    role: user.role,
+                    token: token,
+                  });
+                }
+                return res.status(500).json({ err: "Something went wrong" });
               }
-              return res.status(500).json({ err: "Something went wrong" });
-            }
-          );
+            );
         } else {
           res.json({ err: "Email or password is not correct" });
         }

@@ -12,11 +12,11 @@ exports.checkUserExists = (email, cb) => {
 };
 
 exports.findUser = (email, cb) => {
-  User.findOne({ email: email })
+  User.findOne({ email: email, deleted: false })
     .then((data) => {
       if (data) {
         cb(null, data);
-      } else cb("Not exists", null);
+      } else cb("notExists", null);
     })
     .catch((err) => cb(err, null));
 };

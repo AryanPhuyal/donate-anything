@@ -23,12 +23,16 @@ exports.changePassword = (email, currentPassword, newPassword, cb) => {
   });
 };
 
-exports.deleteUser = (userId, cb) => {
+exports.deleteUser = async (userId, cb) => {
   User.findById(userId)
     .then(async (user) => {
       if (user && user.role.toLowerCase() != "admin") {
-        user.deleted = true;
-        await user.save();
+        deleteAllUserThread(useId, async (err) => {
+          if (!err) {
+            user.deleted = true;
+            await user.save();
+          } else cb(err);
+        });
         cb(null, "success");
       } else {
         cb("notExists");

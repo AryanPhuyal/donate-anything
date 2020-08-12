@@ -27,6 +27,10 @@ const userSchema = new Schema({
     ref: "User",
     type: mongoose.Types.ObjectId,
   },
+  verified: {
+    default: false,
+    type: Boolean,
+  },
   deactivated: {
     default: false,
     type: Boolean,
