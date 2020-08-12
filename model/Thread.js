@@ -2,7 +2,12 @@ const mongoose = require("mongoose");
 
 const threadSchema = new mongoose.Schema({
   name: String,
-  image: String,
+  image: [
+    {
+      type: String,
+      require: true,
+    },
+  ],
   dateBought: Date,
   faultDescription: String,
   description: String,

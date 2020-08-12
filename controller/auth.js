@@ -25,7 +25,7 @@ exports.login = (req, res) => {
         if (user) {
           console.log(user.verified);
           if (user.verified === false) {
-            res.json({ err: "Your account is not verified" });
+            res.status(400).json({ err: "Your account is not verified" });
           } else
             jwt.sign(
               {
