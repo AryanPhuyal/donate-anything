@@ -56,7 +56,7 @@ exports.createUser = (
             createdAt: Date.now(),
           });
           await user.save();
-          cb(null, "success");
+          cb(null, user);
         } else {
           cb(err, null);
         }
@@ -108,4 +108,21 @@ exports.comparePassword = (email, password, cb) => {
       });
     } else cb("notExists", null);
   });
+};
+
+exports.validateUser = (userId, cb) => {
+  User.findById(userId)
+    .then(async (user) => {
+      if (user) {
+        user.verified = true;
+        await user.save();
+        cb(null, user);
+      } else {
+        cb("notExists");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      cb(err);
+    });
 };

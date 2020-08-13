@@ -17,10 +17,10 @@ const router = Router();
 //
 router.get("/category", getCategory);
 router.get("/threads", showAllThread);
-router.get("threads/:threadId", showOneThread);
+router.get("thread/:threadId", showOneThread);
 router.post("/thread", threadValidation, addThread);
 router.get("/myThread", showOwnThread);
-router.patch("/thread/:threadId", deleteThread);
+router.delete("/thread/:threadId", deleteThread);
 router.get("/userThread/:userId", showUserThread);
 // deactivate user
 // router.get("/deactivate");

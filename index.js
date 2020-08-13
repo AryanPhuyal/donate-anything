@@ -36,7 +36,9 @@ app.use("/api", jwtToken, isUser, user);
 const adminRoute = require("./route/admin");
 const isAdmin = require("./middleware/isAdmin");
 app.use("/api/admin", jwtToken, adminRoute);
-
+// utility route
+const utilityRoute = require("./route/helper");
+app.use("/", utilityRoute);
 app.use("/", (req, res) => {
   res.send("Page not found");
 });

@@ -25,7 +25,7 @@ const { deleteUser } = require("../controller/auth");
 router.get("/category", getCategory);
 router.delete("/category", isAdmin, deleteCategory);
 router.put("/category", isAdmin, editCategory);
-router.post("/category", isAdmin, upload.single("profile"), createCategory);
+router.post("/category", isAdmin, createCategory);
 router.delete("/user", isAdmin, deleteUser);
 router.get("/users", isAdmin, listUsers);
 router.get("/user/:userId", isAdmin, detailUser);

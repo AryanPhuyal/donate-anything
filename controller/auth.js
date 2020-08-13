@@ -1,4 +1,8 @@
-const { comparePassword, createUser } = require("../utility/authencation");
+const {
+  comparePassword,
+  createUser,
+  validateUser,
+} = require("../utility/authencation");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const keys = require("../config/keys");
@@ -7,7 +11,6 @@ const { sendMail } = require("../utility/sendMail");
 
 exports.login = (req, res) => {
   const errors = validationResult(req);
-  console.log(errors);
 
   if (errors.isEmpty()) {
     const email = req.body.email;
@@ -19,12 +22,10 @@ exports.login = (req, res) => {
             err: "User with this email dosen't exists",
           });
         } else {
-          console.log(err);
           res.status(500).json({ err: "Server Error" });
         }
       } else {
         if (user) {
-          console.log(user.verified);
           if (user.verified === false) {
             res.status(400).json({ err: "Your account is not verified" });
           } else
@@ -70,7 +71,6 @@ exports.login = (req, res) => {
 
 exports.signup = (req, res) => {
   const errors = validationResult(req);
-  console.log(errors);
 
   if (errors.isEmpty()) {
     const userDetails = {
@@ -92,14 +92,14 @@ exports.signup = (req, res) => {
     }
     createUser(userDetails, (err, user) => {
       if (user) {
-        verification(user, (err, token) => {
+        verification(req, user, (err, token) => {
           if (!err) {
-            res.status(500).json("err", "Unable to send verification  email");
-          } else {
-            res.json({
+            res.status(200).json({
               success: "Successfully created user",
               message: "mail has been sent to your address",
             });
+          } else {
+            res.status(500).json({ err: "Unable to send verification  email" });
           }
         });
       } else if (err === "exists") {
@@ -148,7 +148,7 @@ exports.getUser = (req, res) => {
   });
 };
 
-verification = (user, cb) => {
+verification = (req, user, cb) => {
   jwt.sign(
     {
       _id: user._id,
@@ -161,21 +161,48 @@ verification = (user, cb) => {
       photo: user.photo,
     },
     keys.JWT_VERIFICATION,
-    (err, token) => {
+    async (err, token) => {
+      if (err) {
+        cb(err);
+        return;
+      }
       host = req.headers.host;
       const subject = "Verify your email";
       const body = `
       <h1> Someone has requested to sign in from this email</h1>
       <h3>Click link below to verify account </h3>
-      <a href="${host}/${token}">Verify account</a>
+      ${host}/${token}
       `;
-      sendMail(user.email, subject, body).catch((err) => {
-        console.log(err);
+      const mail = await sendMail(user.email, subject, body).catch((err) => {
         cb(err);
+        return;
       });
-
-      if (err) cb(err);
-      else cb(null, token);
+      cb(null, "success");
     }
   );
+};
+
+exports.verifyUser = (req, res) => {
+  const token = req.params.token;
+  console.log(token);
+  jwt.verify(token, keys.JWT_VERIFICATION, (err, data) => {
+    if (!err) {
+      const userId = data._id;
+      validateUser(userId, (err, user) => {
+        if (!err) {
+          res.send(`
+          <h1> Hello ${user.firstName}</h1>
+          <p>Successfully verified your account</p>
+          `);
+        }
+        if (err == "notExists") {
+          res.send("Requested USer is not found");
+        } else {
+          res.send("unexpected Error");
+        }
+      });
+    } else {
+      res.send("Unexpected Error");
+    }
+  });
 };
