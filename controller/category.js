@@ -18,7 +18,7 @@ exports.createCategory = (req, res) => {
   const userId = req.user._id;
   const imageUrl = req.body.image;
   const name = req.body.name;
-  addCategory({ name: name, imageUrl: image, user: userId }, (err, data) => {
+  addCategory({ name: name, imageUrl: imageUrl, user: userId }, (err, data) => {
     if (!err && data === "exists") {
       res.status(400).json({ err: "Category name already exists" });
     } else if (!err) {
