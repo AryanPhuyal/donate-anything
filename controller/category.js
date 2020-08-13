@@ -34,7 +34,7 @@ exports.createCategory = (req, res) => {
 // warn if product exists
 // delete all the product associate with this category
 exports.deleteCategory = (req, res) => {
-  const categoryId = req.body.categoryId;
+  const categoryId = req.params.id;
   const userId = req.user._id;
   const userRole = req.user.role.name;
   deleteCategory(userId, userRole, categoryId, (err, data) => {

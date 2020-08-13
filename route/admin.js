@@ -23,10 +23,10 @@ const { deleteUser } = require("../controller/auth");
 // // reset password
 // router.get("/reset-password/:userId");
 router.get("/category", getCategory);
-router.delete("/category", isAdmin, deleteCategory);
+router.delete("/category/:id", isAdmin, deleteCategory);
 router.put("/category", isAdmin, editCategory);
 router.post("/category", isAdmin, createCategory);
-router.delete("/user", isAdmin, deleteUser);
+router.delete("/user/:userId", isAdmin, deleteUser);
 router.get("/users", isAdmin, listUsers);
 router.get("/user/:userId", isAdmin, detailUser);
 module.exports = router;
