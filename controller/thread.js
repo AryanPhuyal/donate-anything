@@ -20,7 +20,7 @@ exports.addThread = (req, res) => {
   if (errors.isEmpty()) {
     const name = req.body.name;
 
-    const imageUrl = "/uploads/" + req.body.image;
+    const imageUrl = req.body.image;
     const dateBrought = req.body.DateBrought;
     const faultDescription = req.body.faultDescription;
     const description = req.body.description;

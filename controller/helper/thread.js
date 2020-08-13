@@ -51,7 +51,6 @@ exports.createThread = (
   },
   cb
 ) => {
-  console.log(user);
   const thread = new Thread({
     name,
     dateBrought,

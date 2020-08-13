@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const keys = require("../config/keys");
 const { deleteUser, listUser } = require("./helper/auth");
+const { sendMail } = require("../utility/sendMail");
 
 exports.login = (req, res) => {
   const errors = validationResult(req);
@@ -91,7 +92,16 @@ exports.signup = (req, res) => {
     }
     createUser(userDetails, (err, user) => {
       if (user) {
-        res.json({ success: "Successfully created user" });
+        verification(user, (err, token) => {
+          if (!err) {
+            res.status(500).json("err", "Unable to send verification  email");
+          } else {
+            res.json({
+              success: "Successfully created user",
+              message: "mail has been sent to your address",
+            });
+          }
+        });
       } else if (err === "exists") {
         res.status(300).json({
           err: [
@@ -136,4 +146,36 @@ exports.getUser = (req, res) => {
     if (!err) res.json(user);
     else res.status(500).json({ err: "internal server error" });
   });
+};
+
+verification = (user, cb) => {
+  jwt.sign(
+    {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      gender: user.gender,
+      role: user.role,
+      photo: user.photo,
+    },
+    keys.JWT_VERIFICATION,
+    (err, token) => {
+      host = req.headers.host;
+      const subject = "Verify your email";
+      const body = `
+      <h1> Someone has requested to sign in from this email</h1>
+      <h3>Click link below to verify account </h3>
+      <a href="${host}/${token}">Verify account</a>
+      `;
+      sendMail(user.email, subject, body).catch((err) => {
+        console.log(err);
+        cb(err);
+      });
+
+      if (err) cb(err);
+      else cb(null, token);
+    }
+  );
 };
