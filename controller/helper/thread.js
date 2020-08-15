@@ -25,7 +25,8 @@ exports.showAThread = (userId, threadId, cb) => {
   Thread.findById(threadId)
     .populate({
       path: "user",
-      select: "firstName lastName email role gender BusinessName followers",
+      select:
+        "firstName lastName email role gender BusinessName followers dateBrought",
     })
     .then((thread) => {
       cb(null, thread);
