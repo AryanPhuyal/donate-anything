@@ -131,6 +131,7 @@ exports.deleteThread = (req, res) => {
     } else {
       if (err && err == "noPermission") {
         res.status(400).json({ err: "Un Authorized" });
+        return;
       }
       res.status(500).json({ err: "internal server Error" });
     }
