@@ -72,7 +72,16 @@ exports.createThread = (
 };
 
 exports.updateThread = (
-  { admin, threadId, name, imageUrl, faultDescription, description, userId },
+  {
+    admin,
+    threadId,
+    name,
+    imageUrl,
+    faultDescription,
+    description,
+    dateBrought,
+    userId,
+  },
   cb
 ) => {
   Thread.findById(threadId).then(async (thread) => {
@@ -82,6 +91,7 @@ exports.updateThread = (
         thread.imageUrl = imageUrl;
         thread.faultDescription = faultDescription;
         thread.description = description;
+        thread.dateBrought = dateBrought;
         await thread.save();
         cb(null, thread);
         return;
