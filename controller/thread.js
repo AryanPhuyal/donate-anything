@@ -129,6 +129,7 @@ exports.deleteThread = (req, res) => {
     if (!err) {
       res.json({ success: "Success" });
     } else {
+      console.log(err);
       res.status(500).json({ err: "internal server Error" });
     }
   });

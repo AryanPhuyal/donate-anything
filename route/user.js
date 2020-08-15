@@ -1,7 +1,7 @@
 const Router = require("express");
 const { getCategory } = require("../controller/category");
 const { threadValidation } = require("../validator/threadValidation");
-const { upload } = require("../middleware/multer");
+// const { upload } = require("../middleware/multer");
 
 const {
   addThread,
