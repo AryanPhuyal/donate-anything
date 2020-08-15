@@ -22,7 +22,7 @@ exports.addThread = (req, res) => {
     const name = req.body.name;
 
     const imageUrl = req.body.image;
-    const dateBrought = req.body.DateBrought;
+    const dateBrought = req.body.dateBrought;
     const faultDescription = req.body.faultDescription;
     const description = req.body.description;
     const userId = req.user._id;
