@@ -59,6 +59,7 @@ exports.updateThread = (req, res) => {
       faultDescription: req.body.faultDescription,
       description: req.body.description,
       userId: req.user._id,
+      dateBrought: req.body.dateBrought,
     },
     (err, data) => {
       if (err && err == "UnAuthorize") {
