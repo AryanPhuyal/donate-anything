@@ -71,14 +71,27 @@ exports.createThread = (
     });
 };
 
-exports.updateThread = ({
-  name,
-  imageUrl,
-  faultDescription,
-  description,
-  userId,
-  threadId,
-}) => {};
+exports.updateThread = (
+  { admin, threadId, name, imageUrl, faultDescription, description, userId },
+  cb
+) => {
+  Thread.findById(threadId).then(async (thread) => {
+    if (thread) {
+      if (admin || thread.user == userId) {
+        thread.name = name;
+        thread.imageUrl = imageUrl;
+        thread.faultDescription = faultDescription;
+        thread.description = description;
+        await thread.save();
+        cb(null, thread);
+        return;
+      }
+      cb("UnAuthorize");
+      return;
+    }
+    cb("notFound");
+  });
+};
 
 exports.deleteThread = (threadId, role, userId, cb) => {
   Thread.findById(threadId)

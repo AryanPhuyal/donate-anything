@@ -10,6 +10,7 @@ const {
   showOwnThread,
   showUserThread,
   deleteThread,
+  updateThread,
 } = require("../controller/thread");
 
 const { me, updateProfile } = require("../controller/user");
@@ -22,6 +23,7 @@ router.post("/thread", threadValidation, addThread);
 router.get("/myThread", showOwnThread);
 router.delete("/thread/:threadId", deleteThread);
 router.get("/userThread/:userId", showUserThread);
+router.put("/thread:id", updateThread);
 // deactivate user
 // router.get("/deactivate");
 

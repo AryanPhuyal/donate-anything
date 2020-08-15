@@ -5,6 +5,7 @@ const {
   deleteThread,
   showAThread,
   showAllThreadCategory,
+  updateThread,
 } = require("./helper/thread");
 const { validationResult } = require("express-validator");
 
@@ -47,6 +48,30 @@ exports.addThread = (req, res) => {
   } else {
     res.status(400).json(errors);
   }
+};
+exports.updateThread = (req, res) => {
+  updateThread(
+    {
+      admin: req.user.role.toLowerCase() == "admin" ? true : false,
+      threadId: req.params.id,
+      name: req.body.name,
+      imageUrl: req.body.image,
+      faultDescription: req.body.faultDescription,
+      description: req.body.description,
+      userId: req.user._id,
+    },
+    (err, data) => {
+      if (err && err == "UnAuthorize") {
+        res.status(400).json({ err: "Unauthorized access" });
+        return;
+      }
+      if (err && err == "notFound") {
+        res.status(400).json({ err: "Thread Not found" });
+      } else {
+        res.json(data);
+      }
+    }
+  );
 };
 // all thread
 exports.showAllThread = (req, res) => {
