@@ -97,7 +97,7 @@ exports.deleteThread = (threadId, role, userId, cb) => {
   Thread.findById(threadId)
     .then(async (thread) => {
       {
-        if (thread.userId === userId || role.toLowerCase() == "admin") {
+        if (thread.userId == userId || role.toLowerCase() == "admin") {
           thread.status = false;
           await thread.save();
           cb(null, "success");
