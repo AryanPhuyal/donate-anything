@@ -25,6 +25,10 @@ const threadSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
   },
+  hide: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = mongoose.model("Thread", threadSchema);
