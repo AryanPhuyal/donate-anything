@@ -55,11 +55,12 @@ exports.updateThread = (req, res) => {
       admin: req.user.role.toLowerCase() == "admin" ? true : false,
       threadId: req.params.id,
       name: req.body.name,
-      imageUrl: req.body.image,
+      image: req.body.image,
       faultDescription: req.body.faultDescription,
       description: req.body.description,
       userId: req.user._id,
       dateBrought: req.body.dateBrought,
+      hide: req.body.hide,
     },
     (err, data) => {
       if (err && err == "UnAuthorize") {

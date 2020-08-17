@@ -82,6 +82,9 @@ exports.signup = (req, res) => {
       country: req.body.country,
       city: req.body.city,
       photo: req.body.photo,
+      phoneNo: req.body.phoneNo,
+      country: req.body.address,
+      city: req.body.city,
     };
     if (req.body.role == "business") {
       userDetails.name = req.body.name;

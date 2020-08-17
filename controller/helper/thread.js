@@ -77,11 +77,12 @@ exports.updateThread = (
     admin,
     threadId,
     name,
-    imageUrl,
+    image,
     faultDescription,
     description,
     dateBrought,
     userId,
+    hide,
   },
   cb
 ) => {
@@ -89,10 +90,11 @@ exports.updateThread = (
     if (thread) {
       if (admin || thread.user == userId) {
         thread.name = name;
-        thread.imageUrl = imageUrl;
+        thread.image = image;
         thread.faultDescription = faultDescription;
         thread.description = description;
         thread.dateBrought = dateBrought;
+        thread.hide = hide;
         await thread.save();
         cb(null, thread);
         return;

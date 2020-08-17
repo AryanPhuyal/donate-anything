@@ -47,4 +47,8 @@ exports.me = (req, res) => {
   });
 };
 
-const verifyAccount = (req, res) => {};
+// const verifyAccount = (req, res) => {};
+exports.followUser = (req, res) => {
+  targetUser = req.body.userId;
+  userId = req.user.id;
+};
