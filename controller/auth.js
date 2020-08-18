@@ -86,7 +86,7 @@ exports.signup = (req, res) => {
       country: req.body.address,
       city: req.body.city,
     };
-    if (req.body.role == "business") {
+    if (req.body.role.toLowerCase() == "business") {
       userDetails.name = req.body.name;
     } else {
       userDetails.gender = req.body.gender;
