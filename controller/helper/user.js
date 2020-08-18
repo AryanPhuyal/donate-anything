@@ -11,7 +11,19 @@ exports.getProfile = async (userId, cb) => {
 };
 // const updateProfile = () => {};
 
-const uploadProfilePicture = () => {};
+exports.uploadProfilePicture = (id, imageUrl, cb) => {
+  User.findById(id)
+    .then(async (user) => {
+      if (user) {
+        user.profile = imageUrl;
+        await user.save();
+        cb(null, "success");
+      } else {
+        cb("notExists");
+      }
+    })
+    .catch((err) => cb(err));
+};
 
 // const followUser = (userId, me) => {
 //   User.findById(userId).then(async (user) => {});

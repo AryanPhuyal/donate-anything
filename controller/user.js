@@ -1,31 +1,40 @@
 const { changePassword } = require("./helper/auth");
-const { userDetails, followUser } = require("./helper/user");
+const {
+  userDetails,
+  followUser,
+  uploadProfilePicture,
+} = require("./helper/user");
 const resetPassword = (req, res) => {};
 const User = require("../model/User");
 
 exports.updateProfile = async (req, res) => {
-  try {
-    const userId = req.user._id;
-    let user = await User.findById(userId);
-    if (user.role.toLowerCase() == "business") {
-      console.log("insode");
-      user.name = req.body.name;
-    } else {
-      user.firstName = req.body.firstName;
-      user.lastName = req.body.lastName;
-      user.aboutMe = req.body.aboutMe;
-      user.gender = req.body.gender;
-      user.workAt = req.body.workAt;
-    }
-    user.phoneNo = req.body.phoneNo;
-    user.country = req.body.country;
-    user.city = req.body.city;
-    await user.save();
+  userId = req.body.userId;
 
-    res.redirect("/api/auth/me");
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ err: "Internal server error" });
+  if (userId == req.user.id || req.user.role.toLowerCase() == "admin") {
+    try {
+      const userId = req.user._id;
+      let user = await User.findById(userId);
+      if (user.role.toLowerCase() == "business") {
+        user.name = req.body.name;
+      } else {
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
+        user.aboutMe = req.body.aboutMe;
+        user.gender = req.body.gender;
+        user.workAt = req.body.workAt;
+      }
+      user.phoneNo = req.body.phoneNo;
+      user.country = req.body.country;
+      user.city = req.body.city;
+      await user.save();
+
+      res.redirect("/api/auth/me");
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ err: "Internal server error" });
+    }
+  } else {
+    res.status(400).json({ err: "Unauthorize" });
   }
 };
 
@@ -65,6 +74,20 @@ exports.followUser = (req, res) => {
       res.status(500).json({ err: "Server Error" });
     } else {
       res.json({ success: "Successfully Followed" });
+    }
+  });
+};
+
+exports.profilePic = (req, res) => {
+  const userId = req.body.userId;
+  const pic = req.body.profile;
+  uploadProfilePicture(userId, pic, (err, success) => {
+    if (err && err == "notExists") {
+      res.json({ err: "User not Exists" });
+    } else if (err) {
+      res.status(500).json({ err: "Internal Server Error" });
+    } else {
+      res.json({ success: "Success" });
     }
   });
 };
