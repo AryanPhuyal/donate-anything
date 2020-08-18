@@ -23,6 +23,8 @@ const userSchema = new Schema({
   workAt: String,
   aboutMe: String,
   phoneNo: String,
+  city: String,
+  country: String,
   user: {
     ref: "User",
     type: mongoose.Types.ObjectId,
