@@ -46,3 +46,9 @@ exports.userDetails = (userId, cb) => {
     .then((users) => cb(null, users))
     .catch((err) => cb(err));
 };
+
+exports.followUser = (targetUser, user) => {
+  User.findById(targetUser).then(async (u) => {
+    await u.followers.push(user);
+  });
+};
