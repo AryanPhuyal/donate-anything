@@ -41,12 +41,7 @@ const userSchema = new Schema({
     default: false,
     type: Boolean,
   },
-  // threads: [
-  //   {
-  //     threadId: mongoose.Schema.Types.ObjectId,
-  //     ref: "Thread",
-  //   },
-  // ],
+
   followers: [
     {
       // type: String,
@@ -54,12 +49,12 @@ const userSchema = new Schema({
       ref: "User",
     },
   ],
-  // following: [
-  //   {
-  //     followingId: mongoose.Types.ObjectId,
-  //     ref: "User",
-  //   },
-  // ],
+  blocked: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", userSchema);

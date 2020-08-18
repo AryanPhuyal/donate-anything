@@ -1,5 +1,3 @@
-// import { where } from "../../model/User";
-
 const User = require("../../model/User");
 exports.getProfile = async (userId, cb) => {
   try {
@@ -11,20 +9,13 @@ exports.getProfile = async (userId, cb) => {
     cb(err);
   }
 };
-const updateProfile = () => {};
+// const updateProfile = () => {};
 
 const uploadProfilePicture = () => {};
 
-const followUser = (userId, me) => {
-  User.findById(userId).then(async (user) => {});
-};
-
-const showFollowedUser = () => {};
-
-const showFollowingUser = () => {};
-
-const showCatagories = () => {};
-const resetPassword = () => {};
+// const followUser = (userId, me) => {
+//   User.findById(userId).then(async (user) => {});
+// };
 
 exports.listUsers = (cb) => {
   User.find()
@@ -41,14 +32,26 @@ exports.userDetails = (userId, cb) => {
   User.findById(userId)
     //  .where({ deleted: false })
     .select(
-      "firstName lastName email dateOfBirth gender role photo createdAt name workAt aboutMe phoneNo city country"
+      "firstName lastName email dateOfBirth gender role photo createdAt name workAt aboutMe phoneNo city country followers"
     )
     .then((users) => cb(null, users))
     .catch((err) => cb(err));
 };
 
-exports.followUser = (targetUser, user) => {
-  User.findById(targetUser).then(async (u) => {
-    await u.followers.push(user);
-  });
+exports.followUser = (targetUser, user, cb) => {
+  User.findById(targetUser, { followers: user })
+    .then(async (u) => {
+      console.log(u);
+      if (u.followers.length != 0) {
+        cb("AlreadyFollowed");
+      } else {
+        u.followers.push(user);
+        await u.save();
+        cb(null, "success");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      cb(err);
+    });
 };

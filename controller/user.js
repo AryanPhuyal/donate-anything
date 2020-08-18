@@ -1,5 +1,5 @@
 const { changePassword } = require("./helper/auth");
-const { userDetails } = require("./helper/user");
+const { userDetails, followUser } = require("./helper/user");
 const resetPassword = (req, res) => {};
 const User = require("../model/User");
 
@@ -56,6 +56,15 @@ exports.me = (req, res) => {
 
 // const verifyAccount = (req, res) => {};
 exports.followUser = (req, res) => {
-  targetUser = req.body.userId;
-  userId = req.user.id;
+  targetUser = req.params.userId;
+  userId = req.user._id;
+  followUser(targetUser, userId, (err, succ) => {
+    if (err && err == "AlreadyFollowed") {
+      res.json({ err: "Already Followed" });
+    } else if (err) {
+      res.status(500).json({ err: "Server Error" });
+    } else {
+      res.json({ success: "Successfully Followed" });
+    }
+  });
 };

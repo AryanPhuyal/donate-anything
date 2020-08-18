@@ -13,7 +13,7 @@ const {
   updateThread,
 } = require("../controller/thread");
 
-const { me, updateProfile } = require("../controller/user");
+const { followUser } = require("../controller/user");
 const router = Router();
 //
 router.get("/category", getCategory);
@@ -24,6 +24,7 @@ router.get("/myThread", showOwnThread);
 router.delete("/thread/:threadId", deleteThread);
 router.get("/userThread/:userId", showUserThread);
 router.put("/thread/:id", updateThread);
+router.get("/follow-user/:userId", followUser);
 // deactivate user
 // router.get("/deactivate");
 
