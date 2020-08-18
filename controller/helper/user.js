@@ -41,7 +41,7 @@ exports.userDetails = (userId, cb) => {
   User.findById(userId)
     //  .where({ deleted: false })
     .select(
-      "firstName lastName email dateOfBirth gender role photo createdAt BusinessName workAt aboutMe phoneNo"
+      "firstName lastName email dateOfBirth gender role photo createdAt BusinessName workAt aboutMe phoneNo city country"
     )
     .then((users) => cb(null, users))
     .catch((err) => cb(err));
