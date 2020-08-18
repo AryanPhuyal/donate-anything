@@ -13,6 +13,8 @@ exports.updateProfile = async (req, res) => {
     user.phoneNo = req.body.phoneNo;
     user.gender = req.body.gender;
     user.workAt = req.body.workAt;
+    user.country = req.body.country;
+    user.city = req.body.city;
     await user.save();
 
     res.redirect("/api/auth/me");
