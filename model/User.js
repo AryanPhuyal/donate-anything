@@ -19,7 +19,7 @@ const userSchema = new Schema({
   photo: String,
   createdAt: Date,
   modifiedAt: Date,
-  BusinessName: String,
+  name: String,
   workAt: String,
   aboutMe: String,
   phoneNo: String,

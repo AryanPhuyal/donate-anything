@@ -7,15 +7,19 @@ exports.updateProfile = async (req, res) => {
   try {
     const userId = req.user._id;
     let user = await User.findById(userId);
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
-    user.aboutMe = req.body.aboutMe;
+    if (user.role.toLowerCase() == "business") {
+      console.log("insode");
+      user.name = req.body.name;
+    } else {
+      user.firstName = req.body.firstName;
+      user.lastName = req.body.lastName;
+      user.aboutMe = req.body.aboutMe;
+      user.gender = req.body.gender;
+      user.workAt = req.body.workAt;
+    }
     user.phoneNo = req.body.phoneNo;
-    user.gender = req.body.gender;
-    user.workAt = req.body.workAt;
     user.country = req.body.country;
     user.city = req.body.city;
-    console.log(user);
     await user.save();
 
     res.redirect("/api/auth/me");
