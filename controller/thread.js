@@ -1,11 +1,11 @@
 const {
   createThread,
-  showAllThread,
   showAllThreadUser,
   deleteThread,
   showAThread,
   showAllThreadCategory,
   updateThread,
+  showAllThreads,
 } = require("./helper/thread");
 const { validationResult } = require("express-validator");
 
@@ -77,6 +77,7 @@ exports.updateThread = (req, res) => {
 };
 // all thread
 exports.showAllThread = (req, res) => {
+  // console.log(showAThreads);
   if (req.query.category) {
     showAllThreadCategory(req.query.category, (err, threads) => {
       if (err) {
@@ -84,7 +85,7 @@ exports.showAllThread = (req, res) => {
       } else res.json(threads);
     });
   } else
-    showAllThread((err, threads) => {
+    showAllThreads((err, threads) => {
       if (err) {
         res.status(500).json({ err: "Server Error" });
       } else res.json(threads);
@@ -118,7 +119,7 @@ exports.showOneThread = (req, res) => {
 // show loggedIn user Thread
 exports.showOwnThread = (req, res) => {
   const user = req.user._id;
-  showAllThreadUser(user, (err, threads) => {
+  showAllThreadUser(user, user, (err, threads) => {
     if (!err) res.json(threads);
     else res.status(500).json({ err: "Server error" });
   });

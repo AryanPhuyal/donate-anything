@@ -13,7 +13,8 @@ const {
   updateThread,
 } = require("../controller/thread");
 
-const { followUser, profilePic } = require("../controller/user");
+const userController = require("../controller/user");
+
 const router = Router();
 //
 router.get("/category", getCategory);
@@ -24,10 +25,11 @@ router.get("/myThread", showOwnThread);
 router.delete("/thread/:threadId", deleteThread);
 router.get("/userThread/:userId", showUserThread);
 router.put("/thread/:id", updateThread);
-router.get("/follow-user/:userId", followUser);
-router.put("/profile-pic", profilePic);
+// router.get("/follow-user/:userId", changePassword);
+// router.put("/profile-pic", profilePic);
 // deactivate user
 // router.get("/deactivate");
+router.get("/", getCategory);
 
 // router.
 module.exports = router;

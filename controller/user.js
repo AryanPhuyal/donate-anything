@@ -4,8 +4,9 @@ const {
   followUser,
   uploadProfilePicture,
 } = require("./helper/user");
-const resetPassword = (req, res) => {};
+
 const User = require("../model/User");
+console.log("yes");
 
 exports.updateProfile = async (req, res) => {
   userId = req.body.userId;
@@ -63,8 +64,7 @@ exports.me = (req, res) => {
   });
 };
 
-// const verifyAccount = (req, res) => {};
-exports.followUser = (req, res) => {
+exports.followUserAccount = (req, res) => {
   targetUser = req.params.userId;
   userId = req.user._id;
   followUser(targetUser, userId, (err, succ) => {
@@ -76,6 +76,10 @@ exports.followUser = (req, res) => {
       res.json({ success: "Successfully Followed" });
     }
   });
+};
+
+exports.test = (req, res) => {
+  console.log("yes");
 };
 
 exports.profilePic = (req, res) => {

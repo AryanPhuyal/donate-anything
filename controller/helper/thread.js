@@ -1,11 +1,14 @@
 const Thread = require("../../model/Thread");
+const { path } = require("../../route/user");
 
-exports.showAllThread = (cb) => {
-  Thread.find({ status: true })
-    .populate("user")
-    .then((threads) => cb(null, threads))
-    .catch((err) => cb(err, null));
-};
+// exports.showAllThreads = (cb) => {
+//   Thread.find({ status: true })
+//     .populate("user")
+//     .then((threads) => cb(null, threads))
+//     .catch((err) => cb(err, null));
+// };
+
+exports.showAllThreads = "test";
 
 exports.showAllThreadCategory = (category, cb) => {
   Thread.find({ status: true, category: category })
@@ -14,9 +17,9 @@ exports.showAllThreadCategory = (category, cb) => {
     .catch((err) => cb(err, null));
 };
 
-exports.showAllThreadUser = (user, cb) => {
+exports.showAllThreadUser = (logInUser, user, cb) => {
   Thread.find({ status: true, user: user })
-    .populate("user")
+    .populate({ path: "user", match: { followers: logInUser } })
     .then((threads) => cb(null, threads))
     .catch((err) => cb(err, null));
 };
