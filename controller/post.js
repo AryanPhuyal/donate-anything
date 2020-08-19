@@ -77,6 +77,7 @@ exports.showAllThread = (req, res) => {
       req.user._id,
       (err, threads) => {
         if (err) {
+          console.log(err);
           res.status(500).json({ err: "Server Error" });
         } else res.json(threads);
       }

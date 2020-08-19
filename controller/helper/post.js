@@ -14,7 +14,7 @@ exports.showThreadsCategory = (category, user, cb) => {
   Thread.find({ status: true, category: category })
     .populate({ path: "user", where: { followers: user } })
     .then((threads) => {
-      if (thread.user.followers.length != 0) thread.followed = true;
+      // if (thread.user.followers.length != 0) thread.followed = true;
 
       cb(null, threads);
     })
