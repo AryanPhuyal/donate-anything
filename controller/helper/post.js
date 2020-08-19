@@ -1,46 +1,48 @@
 const Thread = require("../../model/Thread");
-const { path } = require("../../route/user");
 
-// exports.showAllThreads = (cb) => {
-//   Thread.find({ status: true })
-//     .populate("user")
-//     .then((threads) => cb(null, threads))
-//     .catch((err) => cb(err, null));
-// };
+exports.showThreads = (logInUser, cb) => {
+  Thread.find({ status: true })
+    .populate({ path: "user", where: { followers: logInUser } })
+    .then((threads) => {
+      // if (thread.user.followers.length != 0) thread.followed = true;
+      cb(null, threads);
+    })
+    .catch((err) => cb(err, null));
+};
 
-exports.showAllThreads = "test";
-
-exports.showAllThreadCategory = (category, cb) => {
+exports.showThreadsCategory = (category, user, cb) => {
   Thread.find({ status: true, category: category })
-    .populate("user")
-    .then((threads) => cb(null, threads))
+    .populate({ path: "user", where: { followers: user } })
+    .then((threads) => {
+      if (thread.user.followers.length != 0) thread.followed = true;
+
+      cb(null, threads);
+    })
     .catch((err) => cb(err, null));
 };
 
-exports.showAllThreadUser = (logInUser, user, cb) => {
+exports.showThreadsUser = (logInUser, user, cb) => {
   Thread.find({ status: true, user: user })
-    .populate({ path: "user", match: { followers: logInUser } })
+    .populate({ path: "user", where: { followers: logInUser } })
     .then((threads) => cb(null, threads))
     .catch((err) => cb(err, null));
 };
 
-exports.showAThread = (userId, threadId, cb) => {
+exports.showThread = (userId, threadId, cb) => {
   Thread.findById(threadId)
     .populate({
       path: "user",
       select:
         "firstName lastName email role gender BusinessName followers dateBrought",
+      where: { followers: logInUser },
     })
     .then((thread) => {
+      if (thread.user.followers.length != 0) thread.followed = true;
       cb(null, thread);
     })
     .catch((err) => {
       cb(thread, null);
     });
-};
-
-checkUserFollowThread = (userId, threadOwnerId, cb) => {
-  User.findById(threadOwnerId);
 };
 
 exports.createThread = (

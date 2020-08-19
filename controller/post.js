@@ -1,13 +1,6 @@
-const {
-  createThread,
-  showAllThreadUser,
-  deleteThread,
-  showAThread,
-  showAllThreadCategory,
-  updateThread,
-  showAllThreads,
-} = require("./helper/thread");
 const { validationResult } = require("express-validator");
+
+const thread = require("./helper/post");
 
 // all user cam add thread
 // name
@@ -27,7 +20,7 @@ exports.addThread = (req, res) => {
     const description = req.body.description;
     const userId = req.user._id;
     const category = req.body.category;
-    createThread(
+    thread.createThread(
       {
         name,
         imageUrl,
@@ -50,7 +43,7 @@ exports.addThread = (req, res) => {
   }
 };
 exports.updateThread = (req, res) => {
-  updateThread(
+  thread.updateThread(
     {
       admin: req.user.role.toLowerCase() == "admin" ? true : false,
       threadId: req.params.id,
@@ -79,14 +72,19 @@ exports.updateThread = (req, res) => {
 exports.showAllThread = (req, res) => {
   // console.log(showAThreads);
   if (req.query.category) {
-    showAllThreadCategory(req.query.category, (err, threads) => {
-      if (err) {
-        res.status(500).json({ err: "Server Error" });
-      } else res.json(threads);
-    });
+    thread.showThreadsCategory(
+      req.query.category,
+      req.user._id,
+      (err, threads) => {
+        if (err) {
+          res.status(500).json({ err: "Server Error" });
+        } else res.json(threads);
+      }
+    );
   } else
-    showAllThreads((err, threads) => {
+    thread.showThreads(req.user._id, (err, threads) => {
       if (err) {
+        console.log(err);
         res.status(500).json({ err: "Server Error" });
       } else res.json(threads);
     });
@@ -95,7 +93,7 @@ exports.showAllThread = (req, res) => {
 // require user id
 exports.showUserThread = (req, res) => {
   const userId = req.params.userId;
-  showAllThreadUser(userId, (err, threads) => {
+  thread.showThreadsUser(userId, (err, threads) => {
     if (err) {
       res.status(500).json({ err: "Server Error" });
     } else {
@@ -107,7 +105,7 @@ exports.showUserThread = (req, res) => {
 // require thread id
 exports.showOneThread = (req, res) => {
   const threadId = req.params.threadId;
-  showAThread(threadId, (err, thread) => {
+  thread.showThread(threadId, (err, thread) => {
     if (err) {
       res.status(500).json({ err: "Server Error" });
     } else {
@@ -119,7 +117,7 @@ exports.showOneThread = (req, res) => {
 // show loggedIn user Thread
 exports.showOwnThread = (req, res) => {
   const user = req.user._id;
-  showAllThreadUser(user, user, (err, threads) => {
+  thread.showThreadsUser(user, user, (err, threads) => {
     if (!err) res.json(threads);
     else res.status(500).json({ err: "Server error" });
   });
@@ -128,7 +126,7 @@ exports.showOwnThread = (req, res) => {
 exports.deleteThread = (req, res) => {
   const threadId = req.params.threadId;
   const role = req.user.role;
-  deleteThread(threadId, role, req.user._id, (err) => {
+  thread.deleteThread(threadId, role, req.user._id, (err) => {
     if (!err) {
       res.json({ success: "Success" });
     } else {

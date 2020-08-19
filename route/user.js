@@ -11,7 +11,7 @@ const {
   showUserThread,
   deleteThread,
   updateThread,
-} = require("../controller/thread");
+} = require("../controller/post");
 
 const userController = require("../controller/user");
 
