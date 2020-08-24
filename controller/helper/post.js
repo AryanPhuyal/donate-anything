@@ -20,6 +20,7 @@ exports.showThreads = (user, parameter, cb) => {
           country: thread.user.country,
           userRole: thread.user.role,
           followed: false,
+          hide: thread.hide,
         };
         if (thread.user.role == "business") {
           newThread.name = thread.user.name;
