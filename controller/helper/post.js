@@ -29,7 +29,7 @@ exports.showThreads = (user, parameter, cb) => {
           hide: thread.hide,
         };
         if (thread.user.role == "business") {
-          newThread.name = thread.user.name;
+          newThread.user.name = thread.user.name;
         } else {
           newThread.user.firstName = thread.user.firstName;
           newThread.user.lastName = thread.user.lastName;
