@@ -31,9 +31,9 @@ exports.showThreads = (user, parameter, cb) => {
         if (thread.user.role == "business") {
           newThread.name = thread.user.name;
         } else {
-          newThread.user.userFirstName = thread.user.firstName;
-          newThread.user.userLastName = thread.user.lastName;
-          newThread.user.userGender = thread.user.gender;
+          newThread.user.firstName = thread.user.firstName;
+          newThread.user.lastName = thread.user.lastName;
+          newThread.user.gender = thread.user.gender;
         }
         for (i in followers) {
           if (followers[i] == user) {
