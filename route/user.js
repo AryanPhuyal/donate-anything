@@ -19,7 +19,7 @@ const router = Router();
 //
 router.get("/category", getCategory);
 router.get("/threads", showAllThread);
-router.get("thread/:threadId", showOneThread);
+router.get("/thread/:threadId", showOneThread);
 router.post("/thread", threadValidation, addThread);
 router.get("/myThread", showOwnThread);
 router.delete("/thread/:threadId", deleteThread);

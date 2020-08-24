@@ -59,7 +59,7 @@ exports.showThreadDetails = (threadId, cb) => {
     .then((thread) => {
       cb(null, thread);
     })
-    .catch(cb(err));
+    .catch((err) => cb(err));
 };
 
 exports.createThread = (

@@ -96,10 +96,10 @@ exports.showUserThread = (req, res) => {
 // send threadId as paramenter in URL
 // require thread id
 exports.showOneThread = (req, res) => {
-  let parameter = { _id: req.params.threadId };
-  thread.showThreadDetails(req.rep.params.threadId, (err, threads) => {
+  // let parameter = { _id: req.params.threadId };
+  let parameter = { _id: req.params.threadId, hide: false };
+  thread.showThreads(req.user._id, parameter, (err, threads) => {
     if (err) {
-      console.log(err);
       res.status(500).json({ err: "Server Error" });
     } else res.json(threads);
   });
