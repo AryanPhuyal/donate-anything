@@ -11,7 +11,7 @@ console.log("yes");
 exports.updateProfile = async (req, res) => {
   userId = req.body.userId;
 
-  if (userId == req.user.id || req.user.role.toLowerCase() == "admin") {
+  if (userId == req.user._id || req.user.role.toLowerCase() == "admin") {
     try {
       const userId = req.user._id;
       let user = await User.findById(userId);
