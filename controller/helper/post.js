@@ -14,7 +14,7 @@ exports.showThreads = (user, parameter, cb) => {
           description: thread.description,
           createdDate: thread.createdDate,
           userId: thread.user._id,
-          category = thread.category,
+          category: thread.category,
           email: thread.user.email,
           phone: thread.user.phoneNo,
           city: thread.user.city,
