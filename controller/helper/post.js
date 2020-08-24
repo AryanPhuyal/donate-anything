@@ -47,6 +47,15 @@ exports.showThreads = (user, parameter, cb) => {
     });
 };
 
+exports.showThreadDetails = (threadId, cb) => {
+  Thread.findById(threadId)
+    .populate("user")
+    .then((thread) => {
+      cb(null, thread);
+    })
+    .catch(cb(err));
+};
+
 exports.createThread = (
   {
     name,
