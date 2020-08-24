@@ -67,19 +67,18 @@ exports.me = (req, res) => {
 exports.followUserAccount = (req, res) => {
   targetUser = req.params.userId;
   userId = req.user._id;
-  followUser(targetUser, userId, (err, succ) => {
+  const follow = req.query.follow ? req.query.params : true;
+  followUser(targetUser, userId, follow, (err, succ) => {
     if (err && err == "AlreadyFollowed") {
       res.json({ err: "Already Followed" });
+    } else if (err && err == "notFollowing") {
+      res.json({ err: "Not following" });
     } else if (err) {
       res.status(500).json({ err: "Server Error" });
     } else {
       res.json({ success: "Successfully Followed" });
     }
   });
-};
-
-exports.test = (req, res) => {
-  console.log("yes");
 };
 
 exports.profilePic = (req, res) => {

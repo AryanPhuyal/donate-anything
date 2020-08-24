@@ -15,7 +15,7 @@ exports.uploadProfilePicture = (id, imageUrl, cb) => {
   User.findById(id)
     .then(async (user) => {
       if (user) {
-        user.profile = imageUrl;
+        user.photo = imageUrl;
         await user.save();
         cb(null, "success");
       } else {
@@ -50,16 +50,25 @@ exports.userDetails = (userId, cb) => {
     .catch((err) => cb(err));
 };
 
-exports.followUser = (targetUser, user, cb) => {
+exports.followUser = (targetUser, user, follow, cb) => {
   User.findById(targetUser, { followers: user })
     .then(async (u) => {
-      console.log(u);
-      if (u.followers.length != 0) {
-        cb("AlreadyFollowed");
+      if (follow) {
+        if (u.followers.length != 0) {
+          cb("AlreadyFollowed");
+        } else {
+          u.followers.push(user);
+          await u.save();
+          cb(null, "success");
+        }
       } else {
-        u.followers.push(user);
-        await u.save();
-        cb(null, "success");
+        if (u.followers.length != 0) {
+          u.followers.pop();
+          await user.save();
+          cb(null, "success");
+        } else {
+          cb("notFollowing");
+        }
       }
     })
     .catch((err) => {

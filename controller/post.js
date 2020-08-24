@@ -71,56 +71,49 @@ exports.updateThread = (req, res) => {
 // all thread
 exports.showAllThread = (req, res) => {
   // console.log(showAThreads);
+  let parameter = { hide: false };
   if (req.query.category) {
-    thread.showThreadsCategory(
-      req.query.category,
-      req.user._id,
-      (err, threads) => {
-        if (err) {
-          console.log(err);
-          res.status(500).json({ err: "Server Error" });
-        } else res.json(threads);
-      }
-    );
-  } else
-    thread.showThreads(req.user._id, (err, threads) => {
-      if (err) {
-        console.log(err);
-        res.status(500).json({ err: "Server Error" });
-      } else res.json(threads);
-    });
+    parameter["category"] = req.query.category;
+  }
+  thread.showThreads(req.user._id, parameter, (err, threads) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ err: "Server Error" });
+    } else res.json(threads);
+  });
 };
 // send userId as parameter
 // require user id
 exports.showUserThread = (req, res) => {
-  const userId = req.params.userId;
-  thread.showThreadsUser(userId, (err, threads) => {
+  let parameter = { user: req.params.userId, hide: false };
+  thread.showThreads(req.user._id, parameter, (err, threads) => {
     if (err) {
+      console.log(err);
       res.status(500).json({ err: "Server Error" });
-    } else {
-      res.json(threads);
-    }
+    } else res.json(threads);
   });
 };
 // send threadId as paramenter in URL
 // require thread id
 exports.showOneThread = (req, res) => {
-  const threadId = req.params.threadId;
-  thread.showThread(threadId, (err, thread) => {
+  let parameter = { _id: req.params.threadId, hide: false };
+  thread.showThreads(req.user._id, parameter, (err, threads) => {
     if (err) {
+      console.log(err);
       res.status(500).json({ err: "Server Error" });
-    } else {
-      res.json(thread);
-    }
+    } else res.json(threads);
   });
 };
 
 // show loggedIn user Thread
 exports.showOwnThread = (req, res) => {
   const user = req.user._id;
-  thread.showThreadsUser(user, user, (err, threads) => {
-    if (!err) res.json(threads);
-    else res.status(500).json({ err: "Server error" });
+  let parameter = { user: user };
+  thread.showThreads(req.user._id, parameter, (err, threads) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ err: "Server Error" });
+    } else res.json(threads);
   });
 };
 //

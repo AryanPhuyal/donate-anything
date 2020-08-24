@@ -1,47 +1,48 @@
 const Thread = require("../../model/Thread");
 
-exports.showThreads = (logInUser, cb) => {
-  Thread.find({ status: true })
-    .populate({ path: "user", where: { followers: logInUser } })
+exports.showThreads = (user, parameter, cb) => {
+  Thread.find({ ...parameter, status: true })
+    .populate({ path: "user" })
     .then((threads) => {
+      threads = threads.map((thread) => {
+        const followers = thread.user.followers;
+        let newThread = {
+          image: thread.image,
+          _id: thread._id,
+          name: thread.name,
+          faultDescription: thread.faultDescription,
+          description: thread.description,
+          createdDate: thread.createdDate,
+          userId: thread.user._id,
+          email: thread.user.email,
+          phone: thread.user.phoneNo,
+          city: thread.user.city,
+          country: thread.user.country,
+          userRole: thread.user.role,
+          followed: false,
+        };
+        if (thread.user.role == "business") {
+          newThread.name = thread.user.name;
+        } else {
+          newThread.userFirstName = thread.user.firstName;
+          newThread.userLastName = thread.user.lastName;
+          newThread.userGender = thread.user.gender;
+        }
+        for (i in followers) {
+          if (followers[i] == user) {
+            newThread["followed"] = true;
+            break;
+          }
+        }
+        delete newThread["followers"];
+        return newThread;
+      });
       // if (thread.user.followers.length != 0) thread.followed = true;
       cb(null, threads);
-    })
-    .catch((err) => cb(err, null));
-};
-
-exports.showThreadsCategory = (category, user, cb) => {
-  Thread.find({ status: true, category: category })
-    .populate({ path: "user", where: { followers: user } })
-    .then((threads) => {
-      // if (thread.user.followers.length != 0) thread.followed = true;
-
-      cb(null, threads);
-    })
-    .catch((err) => cb(err, null));
-};
-
-exports.showThreadsUser = (logInUser, user, cb) => {
-  Thread.find({ status: true, user: user })
-    .populate({ path: "user", where: { followers: logInUser } })
-    .then((threads) => cb(null, threads))
-    .catch((err) => cb(err, null));
-};
-
-exports.showThread = (userId, threadId, cb) => {
-  Thread.findById(threadId)
-    .populate({
-      path: "user",
-      select:
-        "firstName lastName email role gender BusinessName followers dateBrought",
-      where: { followers: logInUser },
-    })
-    .then((thread) => {
-      if (thread.user.followers.length != 0) thread.followed = true;
-      cb(null, thread);
     })
     .catch((err) => {
-      cb(thread, null);
+      console.log(err);
+      cb(err, null);
     });
 };
 
