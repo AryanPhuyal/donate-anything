@@ -13,22 +13,27 @@ exports.showThreads = (user, parameter, cb) => {
           faultDescription: thread.faultDescription,
           description: thread.description,
           createdDate: thread.createdDate,
-          userId: thread.user._id,
           category: thread.category,
-          email: thread.user.email,
-          phone: thread.user.phoneNo,
-          city: thread.user.city,
-          country: thread.user.country,
-          userRole: thread.user.role,
           followed: false,
+
+          user: {
+            _id: thread.user._id,
+            email: thread.user.email,
+            phoneNo: thread.user.phoneNo,
+            city: thread.user.city,
+            country: thread.user.country,
+            role: thread.user.role,
+            aboutMe: thread.user.aboutMe,
+            workAt: thread.user.workAt,
+          },
           hide: thread.hide,
         };
         if (thread.user.role == "business") {
           newThread.name = thread.user.name;
         } else {
-          newThread.userFirstName = thread.user.firstName;
-          newThread.userLastName = thread.user.lastName;
-          newThread.userGender = thread.user.gender;
+          newThread.user.userFirstName = thread.user.firstName;
+          newThread.user.userLastName = thread.user.lastName;
+          newThread.user.userGender = thread.user.gender;
         }
         for (i in followers) {
           if (followers[i] == user) {
