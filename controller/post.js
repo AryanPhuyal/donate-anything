@@ -110,6 +110,7 @@ exports.showOwnThread = (req, res) => {
   const user = req.user._id;
   let parameter = { user: user };
   thread.showThreads(req.user._id, parameter, (err, threads) => {
+    // console.log(threads);
     if (err) {
       console.log(err);
       res.status(500).json({ err: "Server Error" });

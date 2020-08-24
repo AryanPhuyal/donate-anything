@@ -29,7 +29,7 @@ exports.showThreads = (user, parameter, cb) => {
           hide: thread.hide,
         };
         if (thread.user.role == "business") {
-          newThread.user.name = thread.user.name;
+          newThread.user["user"] = thread.user.name;
         } else {
           newThread.user.firstName = thread.user.firstName;
           newThread.user.lastName = thread.user.lastName;
@@ -44,11 +44,11 @@ exports.showThreads = (user, parameter, cb) => {
         delete newThread["followers"];
         return newThread;
       });
+
       // if (thread.user.followers.length != 0) thread.followed = true;
       cb(null, threads);
     })
     .catch((err) => {
-      console.log(err);
       cb(err, null);
     });
 };
