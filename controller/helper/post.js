@@ -7,16 +7,16 @@ exports.showThreads = (user, parameter, cb) => {
       threads = threads.map((thread) => {
         const followers = thread.user.followers;
         let newThread = {
-          image: thread.image,
           _id: thread._id,
           name: thread.name,
           faultDescription: thread.faultDescription,
           description: thread.description,
           createdDate: thread.createdDate,
           category: thread.category,
-          followed: false,
 
           user: {
+            followed: false,
+            image: thread.image,
             _id: thread.user._id,
             email: thread.user.email,
             phoneNo: thread.user.phoneNo,
@@ -38,7 +38,7 @@ exports.showThreads = (user, parameter, cb) => {
         }
         for (i in followers) {
           if (followers[i] == user) {
-            newThread["followed"] = true;
+            newThread.user["followed"] = true;
             break;
           }
         }
