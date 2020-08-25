@@ -25,11 +25,12 @@ exports.showThreads = (user, parameter, cb) => {
             role: thread.user.role,
             aboutMe: thread.user.aboutMe,
             workAt: thread.user.workAt,
+            name: thread.user.name,
           },
           hide: thread.hide,
         };
         if (thread.user.role == "business") {
-          newThread.user["user"] = thread.user.name;
+          // newThread.user["user"] = thread.user.name;
         } else {
           newThread.user.firstName = thread.user.firstName;
           newThread.user.lastName = thread.user.lastName;

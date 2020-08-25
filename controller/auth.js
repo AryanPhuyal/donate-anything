@@ -77,7 +77,6 @@ exports.signup = (req, res) => {
       email: req.body.email,
       password: req.body.password,
       role: req.body.role,
-      dateOfBirth: req.body.dateOfBirth,
       phoneNo: req.body.phoneNo,
       country: req.body.country,
       city: req.body.city,
@@ -87,8 +86,10 @@ exports.signup = (req, res) => {
       city: req.body.city,
     };
     if (req.body.role.toLowerCase() == "business") {
-      userDetails.name = req.body.name;
+      console.log(req.body.name);
+      userDetails["name"] = req.body.name;
     } else {
+      userDetails.dateOfBirth = req.body.dateOfBirth;
       userDetails.gender = req.body.gender;
       userDetails.lastName = req.body.lastName;
       userDetails.firstName = req.body.firstName;

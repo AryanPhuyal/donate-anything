@@ -34,6 +34,7 @@ exports.createUser = (
     country,
     city,
     photo,
+    name,
   },
   cb
 ) => {
@@ -51,11 +52,13 @@ exports.createUser = (
             phoneNo,
             gender,
             country,
+            name,
             city,
             photo,
             createdAt: Date.now(),
           });
           await user.save();
+          console.log(user);
           cb(null, user);
         } else {
           cb(err, null);
