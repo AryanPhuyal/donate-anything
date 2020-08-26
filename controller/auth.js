@@ -288,12 +288,12 @@ exports.verifyOTP = (req, res) => {
             if (!err) {
               res.json({ token: token });
             } else {
-              res.json("Something went wrong");
+              res.status(500).json("Something went wrong");
             }
           }
         );
       } else {
-        res.json("not valid");
+        res.status(400).json("not valid");
       }
     });
 };
