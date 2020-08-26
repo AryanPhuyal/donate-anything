@@ -14,7 +14,7 @@ exports.showThreads = (user, parameter, cb) => {
           description: thread.description,
           createdDate: thread.createdDate,
           category: thread.category,
-          dateBrought: thread.dateBrought,
+          dateBought: thread.dateBought,
           image: thread.image,
           user: {
             photo: thread.user.photo,
@@ -66,20 +66,12 @@ exports.showThreadDetails = (threadId, cb) => {
 };
 
 exports.createThread = (
-  {
-    name,
-    imageUrl,
-    faultDescription,
-    description,
-    dateBrought,
-    category,
-    user,
-  },
+  { name, imageUrl, faultDescription, description, dateBought, category, user },
   cb
 ) => {
   const thread = new Thread({
     name,
-    dateBrought,
+    dateBought,
     faultDescription,
     description,
     createdDate: Date.now(),
@@ -105,7 +97,7 @@ exports.updateThread = (
     image,
     faultDescription,
     description,
-    dateBrought,
+    dateBought,
     userId,
     hide,
   },
@@ -118,7 +110,7 @@ exports.updateThread = (
         thread.image = image;
         thread.faultDescription = faultDescription;
         thread.description = description;
-        thread.dateBrought = dateBrought;
+        thread.dateBought = dateBought;
         thread.hide = hide;
         await thread.save();
         cb(null, thread);

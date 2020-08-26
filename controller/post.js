@@ -12,10 +12,11 @@ const thread = require("./helper/post");
 exports.addThread = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
+    // const { name,image,faultDescription,ca}
     const name = req.body.name;
 
     const imageUrl = req.body.image;
-    const dateBrought = req.body.dateBrought;
+    const dateBought = req.body.dateBought;
     const faultDescription = req.body.faultDescription;
     const description = req.body.description;
     const userId = req.user._id;
@@ -26,7 +27,7 @@ exports.addThread = (req, res) => {
         imageUrl,
         faultDescription,
         description,
-        dateBrought,
+        dateBought,
         category,
         user: userId,
       },
@@ -52,7 +53,7 @@ exports.updateThread = (req, res) => {
       faultDescription: req.body.faultDescription,
       description: req.body.description,
       userId: req.user._id,
-      dateBrought: req.body.dateBrought,
+      dateBought: req.body.dateBought,
       hide: req.body.hide,
     },
     (err, data) => {
