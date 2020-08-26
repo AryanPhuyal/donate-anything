@@ -94,3 +94,8 @@ exports.profilePic = (req, res) => {
     }
   });
 };
+
+
+exports.sendMail = (req,res)=>{
+
+}
