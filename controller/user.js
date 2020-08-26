@@ -69,7 +69,8 @@ exports.me = (req, res) => {
 exports.followUserAccount = (req, res) => {
   targetUser = req.params.userId;
   userId = req.user._id;
-  const follow = req.query.follow ? req.query.params : true;
+  const follow = req.query.follow ? req.query.follow : "true";
+  console.log(follow);
   followUser(targetUser, userId, follow, (err, succ) => {
     if (err && err == "AlreadyFollowed") {
       res.json({ err: "Already Followed" });

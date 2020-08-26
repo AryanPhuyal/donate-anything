@@ -9,6 +9,7 @@ const keys = require("../config/keys");
 const { deleteUser, listUser } = require("./helper/auth");
 const { sendMail } = require("../utility/sendMail");
 const otpGenerator = require("otp-generator");
+const Otp = require("../model/Otp");
 
 exports.login = (req, res) => {
   const errors = validationResult(req);
