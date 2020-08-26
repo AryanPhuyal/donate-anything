@@ -27,7 +27,7 @@ exports.deleteUser = async (userId, cb) => {
   User.findById(userId)
     .then(async (user) => {
       if (user && user.role.toLowerCase() != "admin") {
-        deleteAllUserThread(useId, async (err) => {
+        deleteAllUserThread(userId, async (err) => {
           if (!err) {
             user.deleted = true;
             await user.save();
