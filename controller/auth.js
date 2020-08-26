@@ -303,7 +303,7 @@ exports.verifyToken = (req, res) => {
   const { password } = req.body;
   jwt.verify(token, keys.JWT_VERIFICATION, (err, authData) => {
     if (err) {
-      res.json("Something went wrong");
+      res.status(500).json("Something went wrong");
     } else {
       userId = authData._id;
 
@@ -316,14 +316,14 @@ exports.verifyToken = (req, res) => {
                 await user.save();
                 res.json("Success");
               } else {
-                res.json("something went wrong");
+                res.status(500).json("something went wrong");
               }
             });
           } else {
-            res.json("Invalid Token");
+            res.status(400).json("Invalid Token");
           }
         })
-        .catch((err) => res.json("Something went wrong"));
+        .catch((err) => res.status(500).json("Something went wrong"));
     }
   });
 };
