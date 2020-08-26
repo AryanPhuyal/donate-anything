@@ -11,6 +11,8 @@ const { sendMail } = require("../utility/sendMail");
 const otpGenerator = require("otp-generator");
 const Otp = require("../model/Otp");
 
+const User = require("../model/User");
+
 exports.login = (req, res) => {
   const errors = validationResult(req);
 
@@ -191,8 +193,32 @@ verification = (req, user, cb) => {
   );
 };
 
-const signOTP = (user, cb) => {
+const signOTP = async (user, cb) => {
   otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+  Otp.findOne({ user: user._id })
+    .then(async (otpData) => {
+      if (otpData) {
+        otpData.otp = otp;
+      } else {
+        otpData = new Otp({
+          user: user.id,
+          otp: otp,
+        });
+      }
+      const subject = "Verify user";
+      const body = `
+    <h1>Someone has request to change password</h1>
+    <h3>Use this OTP if you are requesting password change</h3>
+    <b>${otp}</b>
+  `;
+      const mail = await sendMail(user.email, subject, body).catch((err) => {
+        cb(err);
+        return;
+      });
+      await otpData.save();
+      cb(null, "success");
+    })
+    .catch((err) => cb(err));
 };
 
 exports.verifyUser = (req, res) => {
@@ -222,11 +248,12 @@ exports.verifyUser = (req, res) => {
 
 exports.resetPassword = (req, res) => {
   const { email } = req.body;
-  User.findOne({ email: email })
+  User.findOne({ email: email, deleted: false })
     .then((user) => {
       if (user) {
         signOTP(user, (err, success) => {
           if (err) {
+            console.log(err);
             res.json("unable to send email");
           } else {
             res.json({ success: "success" });
@@ -237,4 +264,9 @@ exports.resetPassword = (req, res) => {
       }
     })
     .catch((err) => res.status(500).json({ err: "internal server Error" }));
+};
+
+const verifyOTP = (req, res) => {
+  // const { otp } = req.body;
+  // Otp.find;
 };
