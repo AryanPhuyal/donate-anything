@@ -10,6 +10,7 @@ const { deleteUser, listUser } = require("./helper/auth");
 const { sendMail } = require("../utility/sendMail");
 const otpGenerator = require("otp-generator");
 const Otp = require("../model/Otp");
+const bcript = require("bcryptjs");
 
 const User = require("../model/User");
 
@@ -195,15 +196,19 @@ verification = (req, user, cb) => {
 
 const signOTP = async (user, cb) => {
   otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
-  Otp.findOne({ user: user._id })
+  Otp.findOne({ userId: user._id })
     .then(async (otpData) => {
+      // console.log(user);
       if (otpData) {
         otpData.otp = otp;
+        await otpData.save();
       } else {
+        console.log("else");
         otpData = new Otp({
-          user: user.id,
+          userId: user._id,
           otp: otp,
         });
+        await otpData.save();
       }
       const subject = "Verify user";
       const body = `
@@ -215,7 +220,6 @@ const signOTP = async (user, cb) => {
         cb(err);
         return;
       });
-      await otpData.save();
       cb(null, "success");
     })
     .catch((err) => cb(err));
@@ -266,7 +270,60 @@ exports.resetPassword = (req, res) => {
     .catch((err) => res.status(500).json({ err: "internal server Error" }));
 };
 
-const verifyOTP = (req, res) => {
-  // const { otp } = req.body;
-  // Otp.find;
+exports.verifyOTP = (req, res) => {
+  const { pin } = req.params;
+  // console.log()
+  Otp.findOne({ otp: pin })
+    .populate("userId")
+    .then((otp) => {
+      console.log(otp);
+      if (otp) {
+        jwt.sign(
+          {
+            _id: otp.userId._id,
+            message: "reset password",
+          },
+          keys.JWT_VERIFICATION,
+          (err, token) => {
+            if (!err) {
+              res.json({ token: token });
+            } else {
+              res.json("Something went wrong");
+            }
+          }
+        );
+      } else {
+        res.json("not valid");
+      }
+    });
+};
+
+exports.verifyToken = (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+  jwt.verify(token, keys.JWT_VERIFICATION, (err, authData) => {
+    if (err) {
+      res.json("Something went wrong");
+    } else {
+      userId = authData._id;
+
+      User.findById(userId)
+        .then((user) => {
+          if (user) {
+            bcript.hash(password, 12, async (err, hashPassword) => {
+              if (!err) {
+                user.password = hashPassword;
+                await user.save();
+                res.json("Success");
+              } else {
+                res.json("something went wrong");
+              }
+            });
+          } else {
+            res.json("Invalid Token");
+          }
+        })
+        .catch((err) => res.json("Something went wrong"));
+    }
+  });
 };
