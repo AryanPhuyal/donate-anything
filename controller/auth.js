@@ -136,6 +136,8 @@ exports.deleteUser = (req, res) => {
     deleteUser(userId, (err, succ) => {
       if (err && err == "notExists") {
         res.status(400).json({ err: "User Not exists" });
+      } else if (err && err == "isAdmin") {
+        res.status(400).json({ err: "Is Admin" });
       } else if (err) {
         console.log(err);
         res.status(500).json({ err: "Internal Server error" });

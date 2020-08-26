@@ -34,6 +34,8 @@ exports.deleteUser = async (userId, cb) => {
           } else cb(err);
         });
         cb(null, "success");
+      } else if (user.role.toLowerCase() != "admin") {
+        cb(isAdmin);
       } else {
         cb("notExists");
       }

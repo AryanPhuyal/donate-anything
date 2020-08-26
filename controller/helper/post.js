@@ -6,6 +6,7 @@ exports.showThreads = (user, parameter, cb) => {
     .then((threads) => {
       threads = threads.map((thread) => {
         const followers = thread.user.followers;
+        console.log(thread.dateBrought);
         let newThread = {
           _id: thread._id,
           name: thread.name,
@@ -13,6 +14,7 @@ exports.showThreads = (user, parameter, cb) => {
           description: thread.description,
           createdDate: thread.createdDate,
           category: thread.category,
+          dateBrought: thread.dateBrought,
           image: thread.image,
           user: {
             photo: thread.user.photo,
