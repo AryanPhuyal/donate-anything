@@ -8,7 +8,7 @@ const threadSchema = new mongoose.Schema({
       require: true,
     },
   ],
-  dateBrought: String,
+  dateBought: String,
   faultDescription: String,
   description: String,
   createdDate: Date,
