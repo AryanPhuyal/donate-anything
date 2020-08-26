@@ -4,10 +4,11 @@ const {
   validateUser,
 } = require("../utility/authencation");
 const jwt = require("jsonwebtoken");
-const { validationResult } = require("express-validator");
+const { validationResult, body } = require("express-validator");
 const keys = require("../config/keys");
 const { deleteUser, listUser } = require("./helper/auth");
 const { sendMail } = require("../utility/sendMail");
+const otpGenerator = require("otp-generator");
 
 exports.login = (req, res) => {
   const errors = validationResult(req);
@@ -186,6 +187,10 @@ verification = (req, user, cb) => {
   );
 };
 
+const signOTP = (user, cb) => {
+  otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+};
+
 exports.verifyUser = (req, res) => {
   const token = req.params.token;
   console.log(token);
@@ -209,4 +214,23 @@ exports.verifyUser = (req, res) => {
       res.send("Unexpected Error");
     }
   });
+};
+
+exports.resetPassword = (req, res) => {
+  const { email } = req.body;
+  User.findOne({ email: email })
+    .then((user) => {
+      if (user) {
+        signOTP(user, (err, success) => {
+          if (err) {
+            res.json("unable to send email");
+          } else {
+            res.json({ success: "success" });
+          }
+        });
+      } else {
+        res.json({ err: "Email Address not Exists" });
+      }
+    })
+    .catch((err) => res.status(500).json({ err: "internal server Error" }));
 };

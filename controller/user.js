@@ -5,6 +5,8 @@ const {
   uploadProfilePicture,
 } = require("./helper/user");
 
+const { sendMail } = require("../utility/sendMail");
+
 const User = require("../model/User");
 console.log("yes");
 
@@ -95,7 +97,12 @@ exports.profilePic = (req, res) => {
   });
 };
 
-
-exports.sendMail = (req,res)=>{
-
-}
+exports.sendMail = async (req, res) => {
+  const { body, subject, to } = req.body;
+  try {
+    await sendMail(to, subject, body);
+    res.json({ success: "successfully sent mail" });
+  } catch {
+    res.json({ err: "Unable to send mail" });
+  }
+};

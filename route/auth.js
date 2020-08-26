@@ -9,7 +9,12 @@ const {
   changeProfileValidation,
 } = require("../validator/authencation-validation");
 const { me, updateProfile, changePassword } = require("../controller/user");
-const { login, signup, deleteUser } = require("../controller/auth");
+const {
+  login,
+  signup,
+  deleteUser,
+  resetPassword,
+} = require("../controller/auth");
 
 router.post("/login", loginValidation, login);
 router.post("/signup", signUpValidation, signup);
@@ -18,6 +23,7 @@ router.get("/me", jwtToken, me);
 router.put("/me", jwtToken, changeProfileValidation, updateProfile);
 router.put("/change-password", jwtToken, changePassword);
 // delete user
+router.post("/reset-password", resetPassword);
 router.delete("/delete-user/:userId", jwtToken, deleteUser);
 // router.delete("/deactivate");
 module.exports = router;
