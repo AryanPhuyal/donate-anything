@@ -69,15 +69,24 @@ exports.me = (req, res) => {
 exports.followUserAccount = (req, res) => {
   targetUser = req.params.userId;
   userId = req.user._id;
-  const follow = req.query.follow ? req.query.follow : "true";
+  let follow = req.query.follow ? req.query.follow : "true";
+  if (follow == "true") {
+    follow = true;
+  } else {
+    follow = false;
+  }
   console.log(follow);
+
   followUser(targetUser, userId, follow, (err, succ) => {
+    console.log(succ);
     if (err && err == "AlreadyFollowed") {
       res.json({ err: "Already Followed" });
     } else if (err && err == "notFollowing") {
       res.json({ err: "Not following" });
     } else if (err) {
       res.status(500).json({ err: "Server Error" });
+    } else if (succ == "unFollowed") {
+      res.json({ success: "Successfully unFollowed" });
     } else {
       res.json({ success: "Successfully Followed" });
     }

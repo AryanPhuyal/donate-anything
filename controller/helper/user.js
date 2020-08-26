@@ -62,10 +62,11 @@ exports.followUser = (targetUser, user, follow, cb) => {
           cb(null, "success");
         }
       } else {
+        console.log("yes");
         if (u.followers.length != 0) {
           u.followers.pop();
-          await user.save();
-          cb(null, "success");
+          await u.save();
+          cb(null, "unFollowed");
         } else {
           cb("notFollowing");
         }
