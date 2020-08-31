@@ -303,7 +303,7 @@ exports.verifyToken = (req, res) => {
   const { password } = req.body;
   jwt.verify(token, keys.JWT_VERIFICATION, (err, authData) => {
     if (err) {
-      res.status(500).json("Something went wrong");
+      res.status(500).json("Something went wrong with token");
     } else {
       userId = authData._id;
 
