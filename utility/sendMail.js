@@ -13,8 +13,8 @@ exports.sendMail = async (to, subject, body) => {
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: "rh1409573@gmail.com",
-      pass: "@r@o@b@i@n123",
+      user: "project1giveaway@gmail.com",
+      pass: "Ranjit@12345",
     },
   });
 

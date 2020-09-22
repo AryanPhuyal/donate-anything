@@ -123,11 +123,6 @@ exports.blockUser = async (req, res) => {
   const loggedUser = req.user._id;
   const targetUser = req.params.userId;
   block(loggedUser, targetUser, (err, success) => {
-    console.log("===========================================");
-    console.log(err);
-    console.log(success);
-    console.log("===========================================");
-
     if (success) res.json({ success: "success" });
     else if (err && err == "already blocked")
       res.json({ err: "Already blocked" });
