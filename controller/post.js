@@ -76,47 +76,67 @@ exports.showAllThread = (req, res) => {
   if (req.query.category) {
     parameter["category"] = req.query.category;
   }
-  thread.showThreads(req.user._id, parameter, (err, threads) => {
-    if (err) {
-      console.log(err);
-      res.status(500).json({ err: "Server Error" });
-    } else res.json(threads);
-  });
+  thread.showThreads(
+    req.user._id,
+    parameter,
+    req.user.blocked,
+    (err, threads) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ err: "Server Error" });
+      } else res.json(threads);
+    }
+  );
 };
 // send userId as parameter
 // require user id
 exports.showUserThread = (req, res) => {
   let parameter = { user: req.params.userId, hide: false };
-  thread.showThreads(req.user._id, parameter, (err, threads) => {
-    if (err) {
-      console.log(err);
-      res.status(500).json({ err: "Server Error" });
-    } else res.json(threads);
-  });
+  thread.showThreads(
+    req.user._id,
+    parameter,
+    req.user.blocked,
+    (err, threads) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ err: "Server Error" });
+      } else res.json(threads);
+    }
+  );
 };
 // send threadId as paramenter in URL
 // require thread id
 exports.showOneThread = (req, res) => {
   // let parameter = { _id: req.params.threadId };
   let parameter = { _id: req.params.threadId, hide: false };
-  thread.showThreads(req.user._id, parameter, (err, threads) => {
-    if (err) {
-      res.status(500).json({ err: "Server Error" });
-    } else res.json(threads);
-  });
+  thread.showThreads(
+    req.user._id,
+    parameter,
+    req.user.blocked,
+    (err, threads) => {
+      if (err) {
+        res.status(500).json({ err: "Server Error" });
+      } else res.json(threads);
+    }
+  );
 };
 
 // show loggedIn user Thread
 exports.showOwnThread = (req, res) => {
   const user = req.user._id;
   let parameter = { user: user };
-  thread.showThreads(req.user._id, parameter, (err, threads) => {
-    // console.log(threads);
-    if (err) {
-      console.log(err);
-      res.status(500).json({ err: "Server Error" });
-    } else res.json(threads);
-  });
+  thread.showThreads(
+    req.user._id,
+    parameter,
+    req.user.blocked,
+    (err, threads) => {
+      // console.log(threads);
+      if (err) {
+        console.log(err);
+        res.status(500).json({ err: "Server Error" });
+      } else res.json(threads);
+    }
+  );
 };
 //
 exports.deleteThread = (req, res) => {

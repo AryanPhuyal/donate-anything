@@ -1,12 +1,21 @@
 const Thread = require("../../model/Thread");
+const { block } = require("../blockuser");
 
-exports.showThreads = (user, parameter, cb) => {
+exports.showThreads = (user, parameter, myBlocked, cb) => {
+  console.log(user);
   Thread.find({ ...parameter, status: true })
     .populate({ path: "user" })
     .then((threads) => {
       threads = threads.map((thread) => {
         const followers = thread.user.followers;
-        console.log(thread.dateBrought);
+        let blocked = false;
+        if (thread.blocked) {
+          blocked =
+            thread.blocked.filter((x) => x == user._id).length === 0
+              ? true
+              : false;
+        }
+
         let newThread = {
           _id: thread._id,
           name: thread.name,
@@ -16,6 +25,7 @@ exports.showThreads = (user, parameter, cb) => {
           category: thread.category,
           dateBought: thread.dateBought,
           image: thread.image,
+          blocked: blocked,
           user: {
             photo: thread.user.photo,
             followed: false,
@@ -47,6 +57,10 @@ exports.showThreads = (user, parameter, cb) => {
         delete newThread["followers"];
         return newThread;
       });
+      threads = threads.filter((x) => x.blocked == false);
+      if (myBlocked) {
+        threads = threads.filter((x) => !myBlocked.includes(x.user._id));
+      }
 
       // if (thread.user.followers.length != 0) thread.followed = true;
       cb(null, threads);

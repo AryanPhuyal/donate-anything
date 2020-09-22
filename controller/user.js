@@ -7,6 +7,8 @@ const {
 
 const { sendMail } = require("../utility/sendMail");
 
+const { block } = require("../controller/blockuser");
+
 const User = require("../model/User");
 console.log("yes");
 
@@ -115,4 +117,25 @@ exports.sendMail = async (req, res) => {
   } catch {
     res.json({ err: "Unable to send mail" });
   }
+};
+
+exports.blockUser = async (req, res) => {
+  const loggedUser = req.user._id;
+  const targetUser = req.params.userId;
+  block(loggedUser, targetUser, (err, success) => {
+    console.log("===========================================");
+    console.log(err);
+    console.log(success);
+    console.log("===========================================");
+
+    if (success) res.json({ success: "success" });
+    else if (err && err == "already blocked")
+      res.json({ err: "Already blocked" });
+    else if (err && err == "User Not found")
+      res.json({ err: "Already blocked" });
+    else if (err && err == "Admin User") res.json({ err: "User not valid" });
+    else if (err && err == "blocked user not found")
+      res.json({ err: "User not found" });
+    else if (err) res.status(500).json({ err: "Something went wrong" });
+  });
 };

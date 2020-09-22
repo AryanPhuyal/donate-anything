@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
-module.exports = (req, res, next) => {
+const User = require("../model/User");
+
+module.exports = async (req, res, next) => {
   // get auth header value
   const bearerHeader = req.headers["authorization"];
   if (bearerHeader) {
@@ -8,12 +10,27 @@ module.exports = (req, res, next) => {
 
     const bearer = bearerHeader.split(" ");
     const bearerToken = bearer[1];
-    jwt.verify(bearerToken, keys.JWT, (err, authData) => {
+    jwt.verify(bearerToken, keys.JWT, async (err, authData) => {
       if (err) {
         return res.status(403).json({ error: "forbidden" });
       }
-      req.user = authData;
-      next();
+      console.log(authData);
+      try {
+        const user = await User.findById(authData._id);
+        req.user = {
+          _id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: user.role,
+          photo: user.photo,
+          blocked: user.blocked,
+        };
+        console.log(req.user);
+        next();
+      } catch (err) {
+        return res.status(403).json({ error: "forbidden" });
+      }
     });
   } else {
     // forbiddon
