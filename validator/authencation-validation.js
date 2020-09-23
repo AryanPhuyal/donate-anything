@@ -51,8 +51,6 @@ lastNameValidation = body("lastName")
   .withMessage("Last Name should between 2 and 10");
 
 roleValidation = body("role").custom((role) => {
-  console.log(role);
-  console.log(role.toLowerCase() != "business");
   if (
     role.toLowerCase() != "admin" &&
     role.toLowerCase() != "business" &&

@@ -2,7 +2,6 @@ const Thread = require("../../model/Thread");
 const { block } = require("../blockuser");
 
 exports.showThreads = (user, parameter, myBlocked, cb) => {
-  console.log(user);
   Thread.find({ ...parameter, status: true })
     .populate({ path: "user" })
     .then((threads) => {

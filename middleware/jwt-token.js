@@ -14,7 +14,6 @@ module.exports = async (req, res, next) => {
       if (err) {
         return res.status(403).json({ error: "forbidden" });
       }
-      console.log(authData);
       try {
         const user = await User.findById(authData._id);
         req.user = {
@@ -26,7 +25,6 @@ module.exports = async (req, res, next) => {
           photo: user.photo,
           blocked: user.blocked,
         };
-        console.log(req.user);
         next();
       } catch (err) {
         return res.status(403).json({ error: "forbidden" });

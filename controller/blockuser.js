@@ -1,7 +1,6 @@
 const User = require("../model/User");
-exports.block = async (LogInUser, toBlock, cb) => {
+exports.block = async (LogInUser, toBlock, isBlock, cb) => {
   try {
-    cb(null);
     let user = await User.findById(LogInUser);
     let toBlockUser = await User.findById(toBlock);
     if (!toBlock) {
@@ -10,23 +9,25 @@ exports.block = async (LogInUser, toBlock, cb) => {
       cb("Admin User");
     } else if (user) {
       let blocked = user.blocked;
-
-      if (blocked.filter((x) => x == toBlock).length == 0) {
+      if (blocked.filter((x) => x == toBlock).length == 0 && isBlock) {
         blocked.push(toBlock);
         user.blocked = blocked;
         await user.save();
         cb(null, "success");
-      } else {
+      } else if (blocked.filter((x) => x == toBlock).length == 1 && !isBlock) {
+        blocked = blocked.filter((x) => x != toBlock);
+        user.blocked = blocked;
+        await user.save();
+        cb(null, "success");
+      } else if (isBlock) {
         cb("already blocked");
+      } else {
+        cb("Not blocked");
       }
     } else {
       cb("User not found");
     }
   } catch (err) {
-    console.log("------------------------------------");
-    console.log(err);
-    console.log("------------------------------------");
-
     cb(err);
   }
 };

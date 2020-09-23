@@ -13,7 +13,7 @@ const {
   updateThread,
 } = require("../controller/post");
 
-const { blockUser } = require("../controller/user");
+const { blockUser, listBlock } = require("../controller/user");
 
 const userController = require("../controller/user");
 
@@ -29,6 +29,8 @@ router.get("/userThread/:userId", showUserThread);
 router.put("/thread/:id", updateThread);
 router.post("/send-email", userController.sendMail);
 router.get("/block/:userId", blockUser);
+router.get("/list-block", listBlock);
+
 // router.get("/follow-user/:userId", changePassword);
 // router.put("/profile-pic", profilePic);
 // deactivate user

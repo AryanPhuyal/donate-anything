@@ -120,9 +120,11 @@ exports.sendMail = async (req, res) => {
 };
 
 exports.blockUser = async (req, res) => {
+  let isBlock = true;
+  isBlock = req.query.block == "true" ? true : false;
   const loggedUser = req.user._id;
   const targetUser = req.params.userId;
-  block(loggedUser, targetUser, (err, success) => {
+  block(loggedUser, targetUser, isBlock, (err, success) => {
     if (success) res.json({ success: "success" });
     else if (err && err == "already blocked")
       res.json({ err: "Already blocked" });
@@ -131,6 +133,18 @@ exports.blockUser = async (req, res) => {
     else if (err && err == "Admin User") res.json({ err: "User not valid" });
     else if (err && err == "blocked user not found")
       res.json({ err: "User not found" });
+    else if (err && err == "Not blocked") res.json({ err: "Not blocked" });
     else if (err) res.status(500).json({ err: "Something went wrong" });
   });
+};
+
+exports.listBlock = (req, res) => {
+  User.findById(req.user._id)
+    .populate({
+      path: "blocked",
+      select: "name email firstName lastName photo",
+    })
+    .then((user) => {
+      res.json(user.blocked);
+    });
 };

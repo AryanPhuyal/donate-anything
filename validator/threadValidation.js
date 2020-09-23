@@ -32,7 +32,6 @@ const categoryValidation = body("category").custom(async (category) => {
     if (!category) {
       return Promise.reject("Category doesn't exists");
     } else {
-      console.log("valid");
       return true;
     }
   } else return Promise.reject("Category is not valid");
