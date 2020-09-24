@@ -48,7 +48,15 @@ exports.showThreads = (user, parameter, myBlocked, cb) => {
           newThread.user.gender = thread.user.gender;
         }
         for (i in followers) {
-          if (followers[i] == user) {
+          console.log("-----------------");
+
+          console.log(typeof followers[i]);
+          console.log(typeof user);
+
+          console.log("-----------------");
+
+          if (followers[i] + "" == user + "") {
+            console.log("yes");
             newThread.user["followed"] = true;
             break;
           }
