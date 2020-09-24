@@ -39,14 +39,25 @@ exports.listUsers = (cb) => {
     .catch((err) => cb(err));
 };
 
-exports.userDetails = (userId, cb) => {
-  console.log(userId);
+exports.userDetails = async (userId, cb) => {
+  const uu = await User.find({ followers: userId }).select(
+    "firstName lastName name email photo role gender"
+  );
+
   User.findById(userId)
-    //  .where({ deleted: false })
+
+    .populate({
+      path: "followers",
+      select: "name firstName lastName email photo gender",
+    })
     .select(
       "firstName lastName email dateOfBirth gender role photo createdAt name workAt aboutMe phoneNo city country followers"
     )
-    .then((users) => cb(null, users))
+
+    .then((users) => {
+      users = { ...users._doc, followed: uu };
+      cb(null, users);
+    })
     .catch((err) => cb(err));
 };
 
