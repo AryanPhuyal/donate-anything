@@ -41,7 +41,7 @@ exports.listUsers = (cb) => {
       select: "firstName lastName name email photo gender role",
     })
     .select(
-      "firstName lastName email dateOfBirth gender role photo createdAt name phoneNo followers blocked"
+      "firstName lastName email dateOfBirth gender role photo createdAt name phoneNo followers blocked city country workAt aboutMe"
     )
     .then((users) => cb(null, users))
     .catch((err) => cb(err));
