@@ -32,8 +32,16 @@ exports.uploadProfilePicture = (id, imageUrl, cb) => {
 exports.listUsers = (cb) => {
   User.find()
     .where({ deleted: false })
+    .populate({
+      path: "followers",
+      select: "firstName lastName name email photo gender role",
+    })
+    .populate({
+      path: "blocked",
+      select: "firstName lastName name email photo gender role",
+    })
     .select(
-      "firstName lastName email dateOfBirth gender role photo createdAt BusinessName"
+      "firstName lastName email dateOfBirth gender role photo createdAt name phoneNo followers blocked"
     )
     .then((users) => cb(null, users))
     .catch((err) => cb(err));
